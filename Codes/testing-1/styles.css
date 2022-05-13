@@ -1,0 +1,133 @@
+h1	{
+	background-color: rgb(168, 74, 162); 
+	color: rgb(63, 32, 48); 
+	text-align: center; 
+	font-size: 40px;
+	padding: 8px;
+}
+
+h2{
+	background-color: #d53032; 
+	color: hotpink; 
+	text-align: center; 
+	font-size: 40px;
+	padding: 8px;
+}
+
+
+ body{
+ 	background-color: rgb(119, 109, 109);
+}
+
+#p01{
+	background-color: gray;
+}
+
+<!-- a.panel:link, a:visited, a:active{
+	text-decoration: none;
+	padding: 15px 25px;
+	background-color: #745a5a;
+	color: aqua;
+	text-align: center;
+	display: inline-block;
+
+}-->
+
+a:hover{
+	background-color: transparent 25%;
+	color: darkred ;
+}
+
+ul.panel01{
+	list-style-type: none;
+	margin: 0;
+	padding: 15px 25px;
+	overflow: hidden;
+	background-color:#55294e;
+}
+
+ul.panel01 li{
+	float: left;
+}
+
+li a.panel02:link{
+	display: block;
+	color: aqua;
+	text-align: center;
+	padding: 10px 30px 10px 30px; 
+	text-decoration: none;
+	font-size: 20px;
+}
+
+li a.panel02:hover{
+	background-color: transparent 25%;
+	color: rgb(68, 24, 24);
+}
+.button-submit {
+	float: right;
+	margin-right: 16%;
+}
+
+.input-padding {
+	padding: 5px;
+}
+
+.flex-span {
+	color: white;
+}
+.flex-span-output-title {
+	color: white;
+	font-weight: bold;
+	font-size: large;
+}
+
+.flexbox-container-input {
+	width: 1280px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	align-content: space-between;
+	background-color: black;
+}
+.flexbox-item {
+	flex-basis: 100%;
+	margin: 5px;
+	border: 3px solid rgb(236, 220, 220);
+	background-color: rgb(39, 35, 35);
+	
+}
+.flexbox-item-input {
+	flex-basis: 200%;
+	text-decoration-color: white;
+}
+
+.flexbox-item-rename-2 {
+	text-decoration-color: white;
+}
+.flexbox-item-rename-3 {
+	text-decoration-color: white;
+}
+.flexbox-item-rename-4 {
+	text-decoration-color: white;
+}
+.flexbox-inner-1 {
+	border: 3px solid gray;
+	justify-content: center;
+	
+	
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
