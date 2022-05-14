@@ -25,3 +25,4 @@ form.onclick = function(e) {
 //}));
 
 cc(inputHoursWeek * inputPerHour);
+let h = 'hello';
