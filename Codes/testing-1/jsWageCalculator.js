@@ -21,29 +21,40 @@ form.onclick = function(e) {
     cc(inputPerHour);
     cc(inputHoursWeek);
     cc(overtime);
-    handleClicks(inputs);
+    
+    handleClicksGross(inputs);
     //cc(inputHoursWeek * inputPerHour);
    // document.getElementById('print').innerHTML=inputPerHour;
    // document.getElementById('printer').innerHTML=inputHoursWeek;
    return inputs;
 }
 
-function handleClicks(inputs){
+function handleClicksGross(inputs){
+    
+//    inputs[1] = function addInOvertime(inputs){
+//     if (inputs[2] == false) {
+//         if (inputs[1] > 40) {
+//             let x = inputs[1] - 40
+//             return inputs[1] = (x * 1.5) + 40
+//         }else {return +inputs[1]}
+//     } else {return +inputs[1]}
+    
+//}
+    
     let firstWeekGross = inputs[0] * inputs[1];
 
-    let twoWeeksGross = Math.round ( firstWeekGross * 2);
-document.getElementById("2WeeksGross").innerHTML=twoWeeksGross; 
-    let oneMonthGross = Math.round(firstWeekGross * 4);
-document.getElementById('1MonthGross').innerHTML=oneMonthGross;
-    let oneYearGross = Math.round(firstWeekGross * 52);
-document.getElementById('1YearGross').innerHTML=oneYearGross;
+    //let twoWeeksGross = Math.round ( firstWeekGross * 2);
+document.getElementById("2WeeksGross").innerHTML=Math.round(firstWeekGross * 2); 
+    //let oneMonthGross = Math.round(firstWeekGross * 4);
+document.getElementById('1MonthGross').innerHTML=Math.round(firstWeekGross * 4);
+    //let oneYearGross = Math.round(firstWeekGross * 52);
+document.getElementById('1YearGross').innerHTML=Math.round(firstWeekGross * 52);
         firstWeekGross = Math.round(firstWeekGross);// tested top
 document.getElementById('1WeekGross').innerHTML=firstWeekGross;//tested top
- 
+
 }
 
+//function handleClicksGross (inputs)
 
-
-
-
+ 
 
