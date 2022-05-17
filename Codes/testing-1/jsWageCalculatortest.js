@@ -64,6 +64,7 @@ function oneYearGrossIncomeForTaxFigures(wageCalculatorInputs){
         cc(oneYearGrossIncome);
         return oneYearGrossIncome
 }
+hello
 
 
 
