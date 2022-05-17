@@ -15,15 +15,17 @@ form.onclick = (e) => {
         let hoursWorkedPerWeek = document.querySelector("#inputHoursWeek").value;
         let overtimeReceived = document.querySelector("#overtime").checked;
         let wageCalculatorInputs = [wagePerHour, hoursWorkedPerWeek, overtimeReceived];
-       
-        grossIncomePrintToHtml(wageCalculatorInputs);
-        netIncomePrintToHtml(wageCalculatorInputs);
-        oneYearGrossIncomeForTaxFigures(wageCalculatorInputs);
-        cc(wagePerHour);
-    cc(hoursWorkedPerWeek);
-    cc(overtimeReceived);
+        
+    handlesOnClick(wageCalculatorInputs);
+    
 }
-  
+function handlesOnClick(wageCalculatorInputs){
+    grossIncomePrintToHtml(wageCalculatorInputs);
+    netIncomePrintToHtml(wageCalculatorInputs);
+    oneYearGrossIncomeForTaxFigures(wageCalculatorInputs);
+
+}
+
 function grossIncomePrintToHtml(wageCalculatorInputs) {
     cc(wageCalculatorInputs);
     wageCalculatorInputs[1] = addInOvertime(wageCalculatorInputs);
@@ -62,8 +64,9 @@ function addInOvertime(wageCalculatorInputs){
 
 function oneYearGrossIncomeForTaxFigures(wageCalculatorInputs){
     let firstWeekEarnedGrossIncome = wageCalculatorInputs[0] * wageCalculatorInputs[3 && 1];
-    oneYearEarnedGrossIncome = firstWeekEarnedGrossIncome * 52;
-    cc(oneYearEarnedGrossIncome);
+        oneYearGrossIncome = firstWeekEarnedGrossIncome * 52;
+        cc(oneYearGrossIncome);
+        return oneYearGrossIncome
 }
 
 
@@ -142,37 +145,7 @@ function oneYearGrossIncomeForTaxFigures(wageCalculatorInputs){
 
 
        
-//function handleClicksGross (inputs)
 
-//let twoWeeksGross = Math.round ( firstWeekGross * 2);
- //let oneMonthGross = Math.round(firstWeekGross * 4);
-//let oneYearGross = Math.round(firstWeekGross * 52);
-
-/*
-function grossIncomeReturn(inputs){
-    inputs[1] = addInOvertime(inputs);
-    
-    let firstWeekGross = inputs[0] * inputs[1];
-    
-    document.getElementById("2WeeksGross").innerHTML=Math.round(firstWeekGross * 2); 
-    document.getElementById('1MonthGross').innerHTML=Math.round(firstWeekGross * 4);
-    document.getElementById('1YearGross').innerHTML=Math.round(firstWeekGross * 52);
-    document.getElementById('1WeekGross').innerHTML=firstWeekGross;//tested top
-
-}
-
-        function addInOvertime(inputs){
-            if (inputs[2] == false) {
-                if (inputs[1] > 40) {
-                  let x = inputs[1] - 40
-                  return inputs[1] = (x * 1.5) + 40
-                 } else {
-                     return inputs[1]
-                 }
-            } else {return inputs[1]
-            }
-        };
-*/
 /*
         function grossIncomePrintToHtml(wageCalculatorInputs){
             hoursWorkedPerWeek = accountingForOvertime(wageCalculatorInputs);
