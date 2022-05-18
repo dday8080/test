@@ -14,20 +14,26 @@ form.onclick = (e) => {
         let wagePerHour = document.querySelector("#inputPerHour").value;
         let hoursWorkedPerWeek = document.querySelector("#inputHoursWeek").value;
         let overtimeReceived = document.querySelector("#overtime").checked;
+        let taxFilingStatus = document.querySelector("input[type='radio'][name=taxFilingStatus]:checked").value;
+        let taxfilingform = document.querySelector("input[type='radio'][name=w2or1099]:checked").value;
         let wageCalculatorInputs = [wagePerHour, hoursWorkedPerWeek, overtimeReceived];
         
-    handlesOnClick(wageCalculatorInputs);
+        cc(taxfilingform);// get rid of after done
+        cc(typeof(taxFilingStatus));// get rid of after done
+    handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxfilingform);
     
 }
-function handlesOnClick(wageCalculatorInputs){
+function handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxfilingform){
     grossIncomePrintToHtml(wageCalculatorInputs);
     netIncomePrintToHtml(wageCalculatorInputs);
     oneYearGrossIncomeForTaxFigures(wageCalculatorInputs);
-
+    getProperTaxFields(taxFilingStatus)
+    getProperTaxForms(taxfilingform)
+    
 }
 
 function grossIncomePrintToHtml(wageCalculatorInputs) {
-    cc(wageCalculatorInputs);
+    cc(wageCalculatorInputs);// get rid of after done
     wageCalculatorInputs[1] = addInOvertime(wageCalculatorInputs);
           
     let firstWeekGross = wageCalculatorInputs[0] * wageCalculatorInputs[3 && 1];
@@ -36,13 +42,11 @@ function grossIncomePrintToHtml(wageCalculatorInputs) {
     document.getElementById('1MonthGross').innerHTML=Math.round(firstWeekGross * 4);
     document.getElementById('1YearGross').innerHTML=Math.round(firstWeekGross * 52);
     document.getElementById('1WeekGross').innerHTML=Math.round(firstWeekGross);//tested top
-
 }
 
 function netIncomePrintToHtml(wageCalculatorInputs) {
     hoursWorkedPerWeek = addInOvertime(wageCalculatorInputs)
     let firstWeekEarnedNetIncome = wageCalculatorInputs[0] * wageCalculatorInputs[3 && 1];
-
 
     document.querySelector("#secondWeekNet").innerHTML=Math.round(firstWeekEarnedNetIncome * 2);
     document.querySelector("#oneMonthNet").innerHTML=Math.round(firstWeekEarnedNetIncome * 4);
@@ -62,19 +66,81 @@ function addInOvertime(wageCalculatorInputs){
     }
 }
 
-function oneYearGrossIncomeForTaxFigures(wageCalculatorInputs){
-    let firstWeekEarnedGrossIncome = wageCalculatorInputs[0] * wageCalculatorInputs[3 && 1];
-        oneYearGrossIncome = firstWeekEarnedGrossIncome * 52;
-        cc(oneYearGrossIncome);
-        return oneYearGrossIncome
+function getProperTaxForms(taxfilingform){
+    if (taxfilingform == 'w2' || null || undefined){
+        return // fill in with fica and SS fields for W2s
+    }   else {
+    return //fill with 1099 fica and SS fields
+    } 
 }
 
 
+function getProperTaxFields(taxFilingStatus){
+    if (taxFilingStatus == 'single'){
+        return cc(incomeTaxLimitsSingle, rates) // proper deduction fields
+    } else if (taxFilingStatus == 'jointly'){
+        return incomeTaxLimitsJointly, rates // proper deduction fields
+    } else if (taxFilingStatus == 'marriedButSeperately') {
+        return incomeTaxLimitsMarriedButSeperately, rates // proper deduction fields
+    } else {
+        return incomeTaxLimitsHeadOfHousehold, rates // proper deduction fields
+    }
+}
 
 
+function oneYearGrossIncomeForTaxFigures(wageCalculatorInputs){
+    let firstWeekEarnedGrossIncome = wageCalculatorInputs[0] * wageCalculatorInputs[3 && 1];
+        oneYearGrossIncome = firstWeekEarnedGrossIncome * 52;
+        cc(oneYearGrossIncome);// get rid of after done
+        return oneYearGrossIncome
+}
+
+function taxBracketUserIsIn(oneYearGrossIncome,rates){
+    oneYearGrossIncome
+}
 
 
+let incomeTaxLimitsSingle = [0, 10275, 41755, 89075, 170050, 215950, 539900]
+let rates = [10, 12, 22, 24, 32, 35, 37]
 
+
+/* refrence / use what i need for tax info
+y22: {
+                limitsSingleReturn: [0, 10275, 41755, 89075, 170050, 215950, 539900],
+                limitsMarriedJointReturn: [0, 20550, 83550, 178150, 340100, 431900, 647850],
+                limitsMarriedSeparateReturns: [0, 10275, 41775, 89075, 170050, 215950, 323925],
+                limitsHeadOfHouseholdReturn: [0, 14200, 54200, 86350, 164900, 209400, 523600],
+                rates: [10, 12, 22, 24, 32, 35, 37],
+                standardDeduction: {
+                    marriedJointReturn: 25900,
+                    marriedSeparateReturns: 12950,
+                    headOfHousehold: 19400,
+                    singleReturn: 12950,
+                },
+                ficaW2: {
+                    medicare: {
+                        percent: 1.45,
+                    },
+                    socsec: {
+                        percent: 6.2,
+                        cutoff: 147000,
+                    }
+                },
+                fica1099: {
+                    medicare: {
+                        percent: 2.9,
+                        reverseCutoffMarriedJointReturn: 250000,
+                        reverseCutoffMarriedSeparateReturns: 125000,
+                        reverseCutoffSingleHohReturn: 200000,
+                        reverseCutoffPercent: 0.9,
+                    },
+                    socsec: {
+                        percent: 12.4,
+                        cutoff: 147000,
+                    }
+                },
+            },
+        }
 
 
 
@@ -124,7 +190,7 @@ function oneYearGrossIncomeForTaxFigures(wageCalculatorInputs){
     }
 
 
-
+*/
 
 
 
