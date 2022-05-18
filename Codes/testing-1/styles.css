@@ -74,6 +74,7 @@ li a.panel02:hover{
 
 .flex-span {
 	color: white;
+	margin: 4px;
 }
 .flex-span-output-title {
 	color: white;
@@ -88,6 +89,7 @@ li a.panel02:hover{
 	align-items: center;
 	align-content: space-between;
 	background-color: black;
+	margin-top: 5px;
 }
 .flexbox-item {
 	flex-basis: 100%;
@@ -95,8 +97,10 @@ li a.panel02:hover{
 	border: 3px solid rgb(236, 220, 220);
 	background-color: rgb(39, 35, 35);
 	
+	
 }
 .flexbox-item-input {
+	
 	flex-basis: 200%;
 	text-decoration-color: white;
 }
@@ -104,11 +108,13 @@ li a.panel02:hover{
 .flexbox-item-rename-2 {
 	text-decoration-color: white;
 }
-.flexbox-item-rename-3 {
+.flexbox-item-Gross-Income {
 	text-decoration-color: white;
+	font-size: larger;
 }
-.flexbox-item-rename-4 {
+.flexbox-item-Net-Income {
 	text-decoration-color: white;
+	font-size: larger;
 }
 .flexbox-inner-1 {
 	border: 3px solid gray;
