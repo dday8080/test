@@ -59,14 +59,20 @@ return strs
 
 
 cc(longestCommonPrefix(strs));
+let myName = 'tommy';
+// let myNewName = 'todd';
+//let i = 0;
 
+// for (let myNewName = 'todd'; myName !== myNewName; myName = 'todd' ) {
+//     cc(5);
+//     i = i + 10
+// }
 
+let rates = [10, 12, 22, 24, 32, 35, 37];
 
-
-
-
-
-
+for(let i = 0; i < rates.length; i++){
+    cc(rates[i]);
+}
 
 
 

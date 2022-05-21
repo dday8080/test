@@ -7,7 +7,14 @@ let cc = console.log;
 element.innerHTML += 'jsWageCalculator';
 
 let form = document.getElementById("inputValues");
+
 let wageCalculatorInputs ;
+
+let incomeTaxLimitsHeadOfHousehold = [0, 14200, 54200, 86350, 164900, 209400, 523600];
+let incomeTaxLimitsMarriedButSeperately = [0, 10275, 41775, 89075, 170050, 215950, 323925];
+let incomeTaxLimitsJointly = [0, 20550, 83550, 178150, 340100, 431900, 647850];
+let incomeTaxLimitsSingle = [0, 10275, 41755, 89075, 170050, 215950, 539900];
+let rates = [10, 12, 22, 24, 32, 35, 37];
 
 form.onclick = (e) => {
     e.preventDefault();
@@ -19,16 +26,21 @@ form.onclick = (e) => {
         let wageCalculatorInputs = [wagePerHour, hoursWorkedPerWeek, overtimeReceived];
         
         cc(taxfilingform);// get rid of after done
-        cc(typeof(taxFilingStatus));// get rid of after done
+        cc(taxFilingStatus);// get rid of after done
     handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxfilingform);
     
 }
 function handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxfilingform){
-    grossIncomePrintToHtml(wageCalculatorInputs);
-    netIncomePrintToHtml(wageCalculatorInputs);
-    oneYearGrossIncomeForTaxFigures(wageCalculatorInputs);
+    
+    
+    grossIncomePrintToHtml(wageCalculatorInputs)
+    netIncomePrintToHtml(wageCalculatorInputs)
     getProperTaxFields(taxFilingStatus)
+    getProperTaxDeduction(taxFilingStatus)
     getProperTaxForms(taxfilingform)
+    oneYearGrossIncomeForTaxFigures(wageCalculatorInputs)
+    cc(grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs));
+    cc(figuringTaxPercentRateonIncome (taxFilingStatus, wageCalculatorInputs));
     
 }
 
@@ -75,33 +87,63 @@ function getProperTaxForms(taxfilingform){
 }
 
 
+
+//let standardDeduction = getProperTaxFields(taxFilingStatus);
+let oneYearGrossIncome ; 
+
+
 function getProperTaxFields(taxFilingStatus){
+    
     if (taxFilingStatus == 'single'){
-        return cc(incomeTaxLimitsSingle, rates) // proper deduction fields
+        return incomeTaxLimitsSingle
     } else if (taxFilingStatus == 'jointly'){
-        return incomeTaxLimitsJointly, rates // proper deduction fields
+        return incomeTaxLimitsJointly 
     } else if (taxFilingStatus == 'marriedButSeperately') {
-        return incomeTaxLimitsMarriedButSeperately, rates // proper deduction fields
+        return incomeTaxLimitsMarriedButSeperately
     } else {
-        return incomeTaxLimitsHeadOfHousehold, rates // proper deduction fields
+        return incomeTaxLimitsHeadOfHousehold 
     }
 }
+function getProperTaxDeduction(taxFilingStatus){
+    let standardDeduction = [12950, 25900, 12950, 19400]
+    if (taxFilingStatus == 'single'){
+        return standardDeduction[0]
+    } else if (taxFilingStatus == 'jointly'){
+        return standardDeduction[1]
+    } else if ( taxFilingStatus == 'marriedButSeperately'){
+        return standardDeduction[2]
+    } else {
+        return standardDeduction[3]
+    }
+}
+        
 
-
-function oneYearGrossIncomeForTaxFigures(wageCalculatorInputs){
+function oneYearGrossIncomeForTaxFigures(wageCalculatorInputs) {
     let firstWeekEarnedGrossIncome = wageCalculatorInputs[0] * wageCalculatorInputs[3 && 1];
-        oneYearGrossIncome = firstWeekEarnedGrossIncome * 52;
-        cc(oneYearGrossIncome);// get rid of after done
-        return oneYearGrossIncome
+    let oneYearGrossIncome = firstWeekEarnedGrossIncome * 52;
+        return Math.round(oneYearGrossIncome)
 }
 
-function taxBracketUserIsIn(oneYearGrossIncome,rates){
-    oneYearGrossIncome
+function grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs) {
+    standardDeduction = getProperTaxDeduction(taxFilingStatus)
+    oneYearGrossIncome = oneYearGrossIncomeForTaxFigures(wageCalculatorInputs)
+       if (oneYearGrossIncome >= standardDeduction) { 
+       return oneYearGrossIncomeAfterDeduction = oneYearGrossIncome - standardDeduction
+    } else { return oneYearGrossIncome
+    }
+}
+function figuringTaxPercentRateonIncome (taxFilingStatus, wageCalculatorInputs) {
+    cc(rates);
+    cc(oneYearGrossIncomeAfterDeduction = grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs));
+    cc(taxlimitRates = getProperTaxFields(taxFilingStatus))
+    
+       
+        
+       
 }
 
 
-let incomeTaxLimitsSingle = [0, 10275, 41755, 89075, 170050, 215950, 539900]
-let rates = [10, 12, 22, 24, 32, 35, 37]
+
 
 
 /* refrence / use what i need for tax info
@@ -122,8 +164,8 @@ y22: {
                         percent: 1.45,
                     },
                     socsec: {
-                        percent: 6.2,
-                        cutoff: 147000,
+                        percent: 6.2, || 9114
+                        cutoff: 147000, // 9114 is 6.2% of 147000
                     }
                 },
                 fica1099: {
@@ -193,47 +235,3 @@ y22: {
 */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-       
-
-/*
-        function grossIncomePrintToHtml(wageCalculatorInputs){
-            hoursWorkedPerWeek = accountingForOvertime(wageCalculatorInputs);
-          
-            let firstWeekEarnedGrossIncome = wagePerHour * hoursWorkedPerWeek;
-          
-            document.getElementById("2WeekEarnedGross").innerHTML=Math.round(firstWeekEarnedGrossIncome * 2);
-            document.getElementById('1MonthEarnedGross').innerHTML=Math.round(firstWeekEarnedGrossIncome * 4);
-            document.getElementById('1YearEarnedGross').innerHTML=Math.round(firstWeekEarnedGrossIncome * 52);
-            document.getElementById('1WeekEarnedGross').innerHTML=Math.round(firstWeekEarnedGrossIncome)
-          }
-          
-        function accountingForOvertime(wageCalculatorInputs){
-            if (overtimeReceived == false) {
-                if (hoursWorkedPerWeek > 40) {
-                    return hoursWorkedPerWeek = (hoursWorkedPerWeek - 40) * 1.5 + 40
-                } else {
-                    return hoursWorkedPerWeek
-                }
-            } else {
-                return hoursWorkedPerWeek
-            }
-        }
-
-          */
