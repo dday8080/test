@@ -40,7 +40,7 @@ function handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxfilingform){
     getProperTaxForms(taxfilingform)
     oneYearGrossIncomeForTaxFigures(wageCalculatorInputs)
     cc(grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs));
-    cc(figuringTaxPercentRateonIncome (taxFilingStatus, wageCalculatorInputs));
+    cc(figuringTaxPercentRateOnIncome (taxFilingStatus, wageCalculatorInputs));
     
 }
 
@@ -132,7 +132,7 @@ function grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs) {
     } else { return oneYearGrossIncome
     }
 }
-function figuringTaxPercentRateonIncome (taxFilingStatus, wageCalculatorInputs) {
+function figuringTaxPercentRateOnIncome (taxFilingStatus, wageCalculatorInputs) {
     cc(rates);
     cc(oneYearGrossIncomeAfterDeduction = grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs));
     cc(taxlimitRates = getProperTaxFields(taxFilingStatus))
