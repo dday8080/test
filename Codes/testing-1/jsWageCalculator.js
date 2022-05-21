@@ -8,13 +8,20 @@ element.innerHTML += 'jsWageCalculator';
 
 let form = document.getElementById("inputValues");
 
-let wageCalculatorInputs ;
 
 let incomeTaxLimitsHeadOfHousehold = [0, 14200, 54200, 86350, 164900, 209400, 523600];
 let incomeTaxLimitsMarriedButSeparately = [0, 10275, 41775, 89075, 170050, 215950, 323925];
 let incomeTaxLimitsJointly = [0, 20550, 83550, 178150, 340100, 431900, 647850];
 let incomeTaxLimitsSingle = [0, 10275, 41755, 89075, 170050, 215950, 539900];
 let rates = [10, 12, 22, 24, 32, 35, 37];
+let ficaW2SocSec = 6.2;
+let ficaW2Medicare = 1.45;
+let ficaW2 = ficaW2Medicare + ficaW2SocSec;
+let fica1099SocSec = 12.4;
+let fica1099Medicare = 2.9;
+let fica1099 =  fica1099Medicare + fica1099SocSec;
+let ficaSocSecCutoff = 147000;
+
 
 form.onclick = (e) => {
     e.preventDefault();
@@ -37,11 +44,14 @@ function handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxFilingForm){
     netIncomePrintToHtml(wageCalculatorInputs)
     getProperTaxFields(taxFilingStatus)
     getProperTaxDeduction(taxFilingStatus)
-    getProperTaxForms(taxFilingForm)
-    oneYearGrossIncomeForTaxFigures(wageCalculatorInputs)
+    medicareTaxFields(taxFilingStatus)
+    cc(getProperTaxForms(taxFilingForm, ficaW2, fica1099, ficaSocSecCutoff));
+    cc(oneYearGrossIncomeForTaxFigures(wageCalculatorInputs));
     cc(grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs));
     cc(figuringTaxPercentRateOnIncome (taxFilingStatus, wageCalculatorInputs));
-    
+    cc(applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm ));
+
+
 }
 
 function grossIncomePrintToHtml(wageCalculatorInputs) {
@@ -78,21 +88,75 @@ function addInOvertime(wageCalculatorInputs){
     }
 }
 
-function getProperTaxForms(taxFilingForm){
-    if (taxfilingform === 'w2' || null || undefined){
-        return // fill in with fica and SS fields for W2s
+function getProperTaxForms(taxFilingForm, ficaW2, fica1099){
+    if (taxFilingForm === 'w2' || null || undefined){
+        return ficaW2
     }   else {
-    return //fill with 1099 fica and SS fields
+    return fica1099
     }
 }
+// medicareCutoffs: {
+//     reverseCutoffSingleReturns: 200000,
+//         reverseCutoffJointReturn: 250000,
+//         reverseCutoffHoh: 250000,
+//         reverseCutoffSeparateReturns: 125000,
+function medicareTaxFields(taxFilingStatus){
+    if (taxFilingStatus === 'single'){
+        return 200000
+    } else if (taxFilingStatus === 'jointly'){
+        return 250000
+    } else if (taxFilingStatus === 'marriedButSeparately') {
+        return 125000
+    } else {
+        return 250000
+    }
+}
+
+
+function applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus ){
+    let fica = getProperTaxForms(taxFilingForm, ficaW2, fica1099, ficaSocSecCutoff)
+    let oneYearGrossIncome = oneYearGrossIncomeForTaxFigures(wageCalculatorInputs)
+    let medicareCutoff = medicareTaxFields(taxFilingStatus)
+    let ficaBurden;
+        if (fica <= ficaW2){
+            if (oneYearGrossIncome > medicareCutoff) {
+                if (oneYearGrossIncome > ficaSocSecCutoff){
+                    ficaBurden = medicareCutoff * 1.45 / 100
+                    ficaBurden = ficaBurden + (oneYearGrossIncome - medicareCutoff) * 2.35 / 100
+                    return ficaBurden = ficaBurden + (ficaSocSecCutoff * ficaW2SocSec) / 100
+                }
+                ficaBurden = medicareCutoff * 1.45 / 100
+                ficaBurden = ficaBurden + (oneYearGrossIncome - medicareCutoff) * 2.35 / 100
+                return ficaBurden = ficaBurden + (oneYearGrossIncome * ficaW2SocSec) / 100
+            } else if ( oneYearGrossIncome > ficaSocSecCutoff ){
+                ficaBurden = ficaSocSecCutoff * ficaW2SocSec / 100
+                return ficaBurden = ficaBurden + ( oneYearGrossIncome * ficaW2Medicare) / 100
+            } else {
+                return ficaBurden = oneYearGrossIncome * ficaW2 / 100
+            }
+        }
+    cc(fica)
+    cc(oneYearGrossIncome)
+
+}
 // ficaW2: {
-//     medicare: {
+//     medicare: {250000
 //         percent: 1.45,
+//             percentageAfterReverseCutoff: 2.35,
 //     },
-//     socsec: {
-//         percent: 6.2, || 9114
-//         cutoff: 147000, // 9114 is 6.2% of 147000
+//     socSec: {
+//         percent: 6.2,
+//             cutoff: 147000,
 //     }
+// },
+// fica1099: {
+//     medicare: {
+//         percent: 2.9,
+//             percentageAfterReverseCutoff: 3.8,
+//     },
+//     socSec: {
+//         percent: 12.4,
+//             cutoff: 147000,
 
 function getProperTaxFields(taxFilingStatus){
 
@@ -129,9 +193,8 @@ function oneYearGrossIncomeForTaxFigures(wageCalculatorInputs) {
 function grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs) {
     let standardDeduction = getProperTaxDeduction(taxFilingStatus)
     let oneYearGrossIncome = oneYearGrossIncomeForTaxFigures(wageCalculatorInputs)
-    let oneYearGrossIncomeAfterDeduction;
     if (oneYearGrossIncome >= standardDeduction) {
-        return oneYearGrossIncomeAfterDeduction = oneYearGrossIncome - standardDeduction
+        return  oneYearGrossIncome - standardDeduction
     } else {
         return oneYearGrossIncome
     }
@@ -151,7 +214,7 @@ cc(taxLimitRates);
 
 
 
-/* reference / use what i need for tax info
+/* reference / use what I need for tax info
 y22: {
                 limitsSingleReturn: [0, 10275, 41755, 89075, 170050, 215950, 539900],
                 limitsMarriedJointReturn: [0, 20550, 83550, 178150, 340100, 431900, 647850],
@@ -164,79 +227,34 @@ y22: {
                     headOfHousehold: 19400,
                     singleReturn: 12950,
                 },
+                medicareCutoffs: {
+                        reverseCutoffSingleReturns: 200000,
+                        reverseCutoffJointReturn: 250000,
+                        reverseCutoffHoh: 250000,
+                        reverseCutoffSeparateReturns: 125000,
+                },
                 ficaW2: {
                     medicare: {
                         percent: 1.45,
+                        percentageAfterReverseCutoff: 2.35,
                     },
-                    socsec: {
-                        percent: 6.2, || 9114
-                        cutoff: 147000, // 9114 is 6.2% of 147000
+                    socSec: {
+                        percent: 6.2,
+                        cutoff: 147000,
                     }
                 },
                 fica1099: {
                     medicare: {
                         percent: 2.9,
-                        reverseCutoffMarriedJointReturn: 250000,
-                        reverseCutoffMarriedSeparateReturns: 125000,
-                        reverseCutoffSingleHohReturn: 200000,
-                        reverseCutoffPercent: 0.9,
+                        percentageAfterReverseCutoff: 3.8,
                     },
-                    socsec: {
+                    socSec: {
                         percent: 12.4,
                         cutoff: 147000,
                     }
                 },
             },
         }
-
-
-
-    brackets = {
-        y22: {
-            single: {
-                rates: [10, 12, 22, 24, 32, 35, 37],
-                limits: [10275, 41755, 89075, 170050, 215950, ],
-            },
-            marriedJointReturn: {
-                rates: [],
-                limits: [],
-            },
-            marredSeparateReturns: {
-                rates: [],
-                limits: [],
-            },
-            headOfHousehold: {
-                rates: [],
-                limits: [],
-            },
-            standardDeduction: {
-                marriedJointReturn: 25900,
-                marriedSeparateReturns: 12950,
-                headOfHousehold: 19400,
-                singleReturn: 12950,
-            },
-            ficaW2: {
-                medicare: {
-                    percent: 1.45,
-                },
-                socsec: {
-                    percent: 6.2,
-                    cutoff: 147000,
-                    reverseCutoffPercent: 0.9,
-                }
-            },
-            fica1099: {
-                medicare: {
-                    percent: 2.9,
-                    reverseCutoffMarriedJointReturn: 250000,
-                    reverseCutoffMarriedSeparateReturns: 125000,
-                    reverseCutoffSingleHohReturn: 200000,
-                },
-            },
-        }
-    }
-
-
 */
 
 
