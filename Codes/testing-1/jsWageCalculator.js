@@ -22,22 +22,22 @@ form.onclick = (e) => {
         let hoursWorkedPerWeek = document.querySelector("#inputHoursWeek").value;
         let overtimeReceived = document.querySelector("#overtime").checked;
         let taxFilingStatus = document.querySelector("input[type='radio'][name=taxFilingStatus]:checked").value;
-        let taxfilingform = document.querySelector("input[type='radio'][name=w2or1099]:checked").value;
+        let taxFilingForm = document.querySelector("input[type='radio'][name=w2or1099]:checked").value;
         let wageCalculatorInputs = [wagePerHour, hoursWorkedPerWeek, overtimeReceived];
         
-        cc(taxfilingform);// get rid of after done
+        cc(taxFilingForm);// get rid of after done
         cc(taxFilingStatus);// get rid of after done
-    handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxfilingform);
+    handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxFilingForm);
     
 }
-function handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxfilingform){
+function handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxFilingForm){
     
     
     grossIncomePrintToHtml(wageCalculatorInputs)
     netIncomePrintToHtml(wageCalculatorInputs)
     getProperTaxFields(taxFilingStatus)
     getProperTaxDeduction(taxFilingStatus)
-    getProperTaxForms(taxfilingform)
+    getProperTaxForms(taxFilingForm)
     oneYearGrossIncomeForTaxFigures(wageCalculatorInputs)
     cc(grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs));
     cc(figuringTaxPercentRateOnIncome (taxFilingStatus, wageCalculatorInputs));
@@ -78,30 +78,32 @@ function addInOvertime(wageCalculatorInputs){
     }
 }
 
-function getProperTaxForms(taxfilingform){
+function getProperTaxForms(taxFilingForm){
     if (taxfilingform === 'w2' || null || undefined){
         return // fill in with fica and SS fields for W2s
     }   else {
     return //fill with 1099 fica and SS fields
-    } 
+    }
 }
-
-
-
-
-
-
+// ficaW2: {
+//     medicare: {
+//         percent: 1.45,
+//     },
+//     socsec: {
+//         percent: 6.2, || 9114
+//         cutoff: 147000, // 9114 is 6.2% of 147000
+//     }
 
 function getProperTaxFields(taxFilingStatus){
-    
+
     if (taxFilingStatus === 'single'){
         return incomeTaxLimitsSingle
     } else if (taxFilingStatus === 'jointly'){
-        return incomeTaxLimitsJointly 
+        return incomeTaxLimitsJointly
     } else if (taxFilingStatus === 'marriedButSeparately') {
         return incomeTaxLimitsMarriedButSeparately
     } else {
-        return incomeTaxLimitsHeadOfHousehold 
+        return incomeTaxLimitsHeadOfHousehold
     }
 }
 function getProperTaxDeduction(taxFilingStatus){
@@ -116,7 +118,7 @@ function getProperTaxDeduction(taxFilingStatus){
         return standardDeduction[3]
     }
 }
-        
+
 
 function oneYearGrossIncomeForTaxFigures(wageCalculatorInputs) {
     let firstWeekEarnedGrossIncome = wageCalculatorInputs[0] * wageCalculatorInputs[3 && 1];
@@ -138,10 +140,11 @@ function figuringTaxPercentRateOnIncome (taxFilingStatus, wageCalculatorInputs) 
     cc(rates);
     let oneYearGrossIncomeAfterDeduction = grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs);
     let taxLimitRates = getProperTaxFields(taxFilingStatus);
-    
-       
-        
-       
+cc(oneYearGrossIncomeAfterDeduction);
+cc(taxLimitRates);
+
+
+
 }
 
 
