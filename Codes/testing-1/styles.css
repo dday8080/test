@@ -65,7 +65,7 @@ li a.panel02:hover{
 }
 .button-submit {
 	float: right;
-	margin-right: 16%;
+	margin-right: 25%;
 }
 
 .input-padding {
@@ -90,17 +90,20 @@ li a.panel02:hover{
 	align-content: space-between;
 	background-color: black;
 	margin-top: 5px;
+;
+
 }
 .flexbox-item {
 	flex-basis: 100%;
 	margin: 5px;
 	border: 3px solid rgb(236, 220, 220);
 	background-color: rgb(39, 35, 35);
+
 	
 	
 }
 .flexbox-item-input {
-	
+
 	flex-basis: 200%;
 	text-decoration-color: white;
 }

@@ -2,9 +2,9 @@
 //cc(document.getElementById("input-values", "inputPerHour", "inputHoursWeek").addEventListener("click", function () {
    // form.submit();
 //}));
-let element = document.getElementById('wageCalculator');
+
 let cc = console.log;
-element.innerHTML += 'jsWageCalculator';
+
 
 let form = document.getElementById("inputValues");
 
@@ -17,9 +17,11 @@ let rates = [10, 12, 22, 24, 32, 35, 37];
 let ficaW2SocSec = 6.2;
 let ficaW2Medicare = 1.45;
 let ficaW2 = ficaW2Medicare + ficaW2SocSec;
+let ficaW2MedicareAfterCutoff = 2.35
 let fica1099SocSec = 12.4;
 let fica1099Medicare = 2.9;
 let fica1099 =  fica1099Medicare + fica1099SocSec;
+let fica1099MedicareAfterCutoff = 3.8
 let ficaSocSecCutoff = 147000;
 
 
@@ -38,18 +40,19 @@ form.onclick = (e) => {
     
 }
 function handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxFilingForm){
-    
-    
+
+
     grossIncomePrintToHtml(wageCalculatorInputs)
     netIncomePrintToHtml(wageCalculatorInputs)
     getProperTaxFields(taxFilingStatus)
     getProperTaxDeduction(taxFilingStatus)
     medicareTaxFields(taxFilingStatus)
-    cc(getProperTaxForms(taxFilingForm, ficaW2, fica1099, ficaSocSecCutoff));
+    getProperTaxForms(taxFilingForm, ficaW2, fica1099, ficaSocSecCutoff)
     cc(oneYearGrossIncomeForTaxFigures(wageCalculatorInputs));
     cc(grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs));
     cc(figuringTaxPercentRateOnIncome (taxFilingStatus, wageCalculatorInputs));
-    cc(applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm ));
+    cc(applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus, ficaW2, fica1099, ficaSocSecCutoff,
+        ficaW2Medicare, ficaW2MedicareAfterCutoff, ficaW2SocSec, fica1099Medicare, fica1099MedicareAfterCutoff, fica1099SocSec));
 
 
 }
@@ -68,12 +71,15 @@ function grossIncomePrintToHtml(wageCalculatorInputs) {
 
 function netIncomePrintToHtml(wageCalculatorInputs) {
     addInOvertime(wageCalculatorInputs)
+    // let ficaBurden = applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus, ficaW2, fica1099, ficaSocSecCutoff,
+    // ficaSocSecCutoff    ficaW2Medicare, ficaW2MedicareAfterCutoff, ficaW2SocSec, fica1099Medicare, fica1099MedicareAfterCutoff, fica1099SocSec)
     let firstWeekEarnedNetIncome = wageCalculatorInputs[0] * wageCalculatorInputs[3 && 1];
 
     document.querySelector("#secondWeekNet").innerHTML=Math.round(firstWeekEarnedNetIncome * 2);
     document.querySelector("#oneMonthNet").innerHTML=Math.round(firstWeekEarnedNetIncome * 4);
     document.querySelector("#oneYearNet").innerHTML=Math.round(firstWeekEarnedNetIncome * 52);
     document.querySelector("#firstWeekNet").innerHTML=Math.round(firstWeekEarnedNetIncome);
+    // document.querySelector("#w2or1099Expenses").innerHTML=Math.round(ficaBurden);
 }
 
 function addInOvertime(wageCalculatorInputs){
@@ -95,11 +101,7 @@ function getProperTaxForms(taxFilingForm, ficaW2, fica1099){
     return fica1099
     }
 }
-// medicareCutoffs: {
-//     reverseCutoffSingleReturns: 200000,
-//         reverseCutoffJointReturn: 250000,
-//         reverseCutoffHoh: 250000,
-//         reverseCutoffSeparateReturns: 125000,
+
 function medicareTaxFields(taxFilingStatus){
     if (taxFilingStatus === 'single'){
         return 200000
@@ -113,20 +115,24 @@ function medicareTaxFields(taxFilingStatus){
 }
 
 
-function applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus ){
+function applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus, ficaW2, fica1099, ficaSocSecCutoff,
+ficaW2Medicare, ficaW2MedicareAfterCutoff, ficaW2SocSec, fica1099Medicare, fica1099MedicareAfterCutoff, fica1099SocSec)  {
+
     let fica = getProperTaxForms(taxFilingForm, ficaW2, fica1099, ficaSocSecCutoff)
     let oneYearGrossIncome = oneYearGrossIncomeForTaxFigures(wageCalculatorInputs)
-    let medicareCutoff = medicareTaxFields(taxFilingStatus)
+    let medicareCutoff = medicareTaxFields(taxFilingStatus);
     let ficaBurden;
+
+    cc(fica)
         if (fica <= ficaW2){
             if (oneYearGrossIncome > medicareCutoff) {
                 if (oneYearGrossIncome > ficaSocSecCutoff){
-                    ficaBurden = medicareCutoff * 1.45 / 100
-                    ficaBurden = ficaBurden + (oneYearGrossIncome - medicareCutoff) * 2.35 / 100
+                    ficaBurden = medicareCutoff * ficaW2Medicare / 100
+                    ficaBurden = ficaBurden + (oneYearGrossIncome - medicareCutoff) * ficaW2MedicareAfterCutoff / 100
                     return ficaBurden = ficaBurden + (ficaSocSecCutoff * ficaW2SocSec) / 100
                 }
-                ficaBurden = medicareCutoff * 1.45 / 100
-                ficaBurden = ficaBurden + (oneYearGrossIncome - medicareCutoff) * 2.35 / 100
+                ficaBurden = medicareCutoff * ficaW2Medicare / 100
+                ficaBurden = ficaBurden + (oneYearGrossIncome - medicareCutoff) * ficaW2MedicareAfterCutoff / 100
                 return ficaBurden = ficaBurden + (oneYearGrossIncome * ficaW2SocSec) / 100
             } else if ( oneYearGrossIncome > ficaSocSecCutoff ){
                 ficaBurden = ficaSocSecCutoff * ficaW2SocSec / 100
@@ -134,29 +140,24 @@ function applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingSt
             } else {
                 return ficaBurden = oneYearGrossIncome * ficaW2 / 100
             }
+        } else {
+            if (oneYearGrossIncome > medicareCutoff) {
+                if (oneYearGrossIncome > ficaSocSecCutoff){
+                    ficaBurden = medicareCutoff * fica1099Medicare / 100
+                    ficaBurden = ficaBurden + (oneYearGrossIncome - medicareCutoff) * fica1099MedicareAfterCutoff / 100
+                    return ficaBurden = ficaBurden + (ficaSocSecCutoff * fica1099SocSec) / 100
+                }
+                ficaBurden = medicareCutoff * fica1099Medicare / 100
+                ficaBurden = ficaBurden + (oneYearGrossIncome - medicareCutoff) * fica1099MedicareAfterCutoff / 100
+                return ficaBurden = ficaBurden + (oneYearGrossIncome * fica1099SocSec) / 100
+            } else if (oneYearGrossIncome > ficaSocSecCutoff) {
+                ficaBurden = ficaSocSecCutoff * fica1099SocSec / 100
+                return ficaBurden = ficaBurden + ( oneYearGrossIncome * fica1099Medicare) / 100
+            }
+            return ficaBurden = oneYearGrossIncome * fica1099 / 100
         }
-    cc(fica)
-    cc(oneYearGrossIncome)
-
 }
-// ficaW2: {
-//     medicare: {250000
-//         percent: 1.45,
-//             percentageAfterReverseCutoff: 2.35,
-//     },
-//     socSec: {
-//         percent: 6.2,
-//             cutoff: 147000,
-//     }
-// },
-// fica1099: {
-//     medicare: {
-//         percent: 2.9,
-//             percentageAfterReverseCutoff: 3.8,
-//     },
-//     socSec: {
-//         percent: 12.4,
-//             cutoff: 147000,
+
 
 function getProperTaxFields(taxFilingStatus){
 
@@ -199,17 +200,38 @@ function grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs) {
         return oneYearGrossIncome
     }
 }
-function figuringTaxPercentRateOnIncome (taxFilingStatus, wageCalculatorInputs) {
+function figuringTaxPercentRateOnIncome (taxFilingStatus, wageCalculatorInputs, rates, ) {
     cc(rates);
     let oneYearGrossIncomeAfterDeduction = grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs);
     let taxLimitRates = getProperTaxFields(taxFilingStatus);
 cc(oneYearGrossIncomeAfterDeduction);
 cc(taxLimitRates);
 
-
-
 }
 
+// medicareCutoffs: {
+//     reverseCutoffSingleReturns: 200000,
+//         reverseCutoffJointReturn: 250000,
+//         reverseCutoffHoh: 250000,
+//         reverseCutoffSeparateReturns: 125000,
+// ficaW2: {
+//     medicare:
+//         percent: 1.45,
+//             percentageAfterReverseCutoff: 2.35,
+//     },
+//     socSec: {
+//         percent: 6.2,
+//             cutoff: 147000,
+//     }
+// },
+// fica1099: {
+//     medicare: {
+//         percent: 2.9,
+//             percentageAfterReverseCutoff: 3.8,
+//     },
+//     socSec: {
+//         percent: 12.4,
+//             cutoff: 147000,
 
 
 
