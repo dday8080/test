@@ -2,10 +2,19 @@
 
 // state taxes come out first then deduction, fica and federal
 
-function oneYearGrossIncomeForTaxFigures(wageCalculatorInputs) {
+function oneYearGrossIncomeForTaxFigures(wageCalculatorInputs){//, stateIncomeTax) {
     let firstWeekEarnedGrossIncome = wageCalculatorInputs[0] * wageCalculatorInputs[3 && 1];
     let oneYearGrossIncome = firstWeekEarnedGrossIncome * 52;
+    //let stateTax = stateIncomeTax;
+    let stateBurden;
+    //cc(stateTax)
     return Math.round(oneYearGrossIncome)
+    // if(stateIncomeTax === 0) {
+    //     return Math.round(oneYearGrossIncome)
+    // } else {
+    //     stateBurden = oneYearGrossIncome * stateTax / 100
+    //     return oneYearGrossIncome - stateBurden
+    // }
 }
 
 
@@ -42,9 +51,9 @@ function getProperTaxFields(taxFilingStatus){
 }
 
 
-function figuringFederalTaxOnIncome (rates, taxFilingStatus, wageCalculatorInputs) {
+function figuringFederalTaxOnIncome (rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus) {
     cc(rates);
-    let oneYearGrossIncomeAfterDeduction = grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs);
+    let oneYearGrossIncomeAfterDeduction = incomeSubFica (wageCalculatorInputs, taxFilingForm, taxFilingStatus);
     let incomeTaxCutoff = getProperTaxFields(taxFilingStatus);
     cc(oneYearGrossIncomeAfterDeduction);
     cc(incomeTaxCutoff);

@@ -23,22 +23,25 @@ form.onclick = (e) => {
     let wagePerHour = +document.querySelector("#inputPerHour").value;
     let hoursWorkedPerWeek = document.querySelector("#inputHoursWeek").value;
     let overtimeReceived = document.querySelector("#overtime").checked;
+    let stateIncomeTax = +document.querySelector("#stateTax").value;
     let taxFilingStatus = document.querySelector("input[type='radio'][name=taxFilingStatus]:checked").value;
     let taxFilingForm = document.querySelector("input[type='radio'][name=w2or1099]:checked").value;
     let wageCalculatorInputs = [wagePerHour, hoursWorkedPerWeek, overtimeReceived];
-    handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxFilingForm);
+    handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxFilingForm, stateIncomeTax);
+
 }
 
-function handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxFilingForm){
+function handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxFilingForm, stateIncomeTax){
     grossIncomePrintToHtml(wageCalculatorInputs)
     netIncomePrintToHtml(wageCalculatorInputs)
     getProperTaxFields(taxFilingStatus)
     getProperTaxDeduction(taxFilingStatus);
+    oneYearGrossIncomeForTaxFigures(wageCalculatorInputs)//, stateIncomeTax)
     let grossIncomeAfterFica = incomeSubFica(wageCalculatorInputs, taxFilingForm, taxFilingStatus);
-
+cc(stateIncomeTax)
     cc(getProperTaxDeduction(taxFilingStatus));
         cc(grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs))
-        cc(figuringFederalTaxOnIncome (rates, taxFilingStatus, wageCalculatorInputs))
+        cc(figuringFederalTaxOnIncome (rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus))
         cc(grossIncomeAfterFica)
 
 }

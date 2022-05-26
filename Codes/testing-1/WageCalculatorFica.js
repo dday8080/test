@@ -65,12 +65,6 @@ function applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingSt
         return oneYearGrossIncome * fica1099 / 100
     }
 }
-// let grossSubFicaIncome = () => {
-//     let sub = applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus, ficaW2, fica1099, ficaSocSecCutoff,
-//         ficaW2Medicare, ficaW2MedicareAfterCutoff, ficaW2SocSec, fica1099Medicare, fica1099MedicareAfterCutoff, fica1099SocSec)
-//     let gross = grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs);
-//     return gross - sub;
-// }
 
  // medicareCutoffs: {
  //     reverseCutoffSingleReturns: 200000,
