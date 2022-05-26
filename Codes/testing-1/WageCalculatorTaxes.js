@@ -8,6 +8,7 @@ function oneYearGrossIncomeForTaxFigures(wageCalculatorInputs) {
 
 function getProperTaxDeduction(taxFilingStatus){
     let standardDeduction = [12950, 25900, 12950, 19400]
+
     if (taxFilingStatus === 'single'){
         return standardDeduction[0]
     } else if (taxFilingStatus === 'jointly'){
@@ -22,10 +23,9 @@ function getProperTaxDeduction(taxFilingStatus){
 function grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs) {
     let standardDeduction = getProperTaxDeduction(taxFilingStatus)
     let oneYearGrossIncome = oneYearGrossIncomeForTaxFigures(wageCalculatorInputs)
-    if (oneYearGrossIncome >= standardDeduction) {
+
+    if (oneYearGrossIncome) {
         return  oneYearGrossIncome - standardDeduction
-    } else {
-        return oneYearGrossIncome
     }
 }
 
@@ -41,14 +41,56 @@ function getProperTaxFields(taxFilingStatus){
         return incomeTaxLimitsHeadOfHousehold
     }
 }
+// function grossIncomeAfterFica (wageCalculatorInputs, taxFilingForm, taxFilingStatus, ficaW2, fica1099, ficaSocSecCutoff,
+//     ficaW2Medicare, ficaW2MedicareAfterCutoff, ficaW2SocSec, fica1099Medicare, fica1099MedicareAfterCutoff, fica1099SocSec){
+//
+//     let ficaBurden = applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus, ficaW2, fica1099, ficaSocSecCutoff,
+//       ficaW2Medicare, ficaW2MedicareAfterCutoff, ficaW2SocSec, fica1099Medicare, fica1099MedicareAfterCutoff, fica1099SocSec);
+//     let baseGrossIncome = oneYearGrossIncomeForTaxFigures(wageCalculatorInputs);
+//
+//     return baseGrossIncome - ficaBurden
+//}
 
-function figuringTaxPercentRateOnIncome (taxFilingStatus, wageCalculatorInputs, rates, ) {
+function figuringFederalTaxOnIncome (rates, taxFilingStatus, wageCalculatorInputs) {
     cc(rates);
     let oneYearGrossIncomeAfterDeduction = grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs);
-    let taxLimitRates = getProperTaxFields(taxFilingStatus);
+    let incomeTaxCutoff = getProperTaxFields(taxFilingStatus);
     cc(oneYearGrossIncomeAfterDeduction);
-    cc(taxLimitRates);
+    cc(incomeTaxCutoff);
+    let combinedTaxCosts = incomeTaxCutoff[1] * rates[0] / 100;
 
+    if (oneYearGrossIncomeAfterDeduction <= incomeTaxCutoff[0]){
+        return 0
+    } else if (oneYearGrossIncomeAfterDeduction <= incomeTaxCutoff[1]) {
+        return oneYearGrossIncomeAfterDeduction * rates[0] / 100
+    } else if (oneYearGrossIncomeAfterDeduction <= incomeTaxCutoff[2]) {
+        return combinedTaxCosts + (oneYearGrossIncomeAfterDeduction - incomeTaxCutoff [1]) * rates[1] / 100
+    } else if (oneYearGrossIncomeAfterDeduction <= incomeTaxCutoff[3]) {
+        combinedTaxCosts += (incomeTaxCutoff[2] - incomeTaxCutoff [1]) * rates[1] / 100
+        return  combinedTaxCosts + (oneYearGrossIncomeAfterDeduction - incomeTaxCutoff [2]) * rates[2] / 100
+    } else if (oneYearGrossIncomeAfterDeduction <= incomeTaxCutoff[4]) {
+        combinedTaxCosts += (incomeTaxCutoff[2] - incomeTaxCutoff [1]) * rates[1] / 100
+        combinedTaxCosts += (incomeTaxCutoff[3] - incomeTaxCutoff[2]) * rates[2] / 100
+        return combinedTaxCosts + (oneYearGrossIncomeAfterDeduction - incomeTaxCutoff [3]) * rates[3] / 100
+    } else if (oneYearGrossIncomeAfterDeduction <= incomeTaxCutoff[5]) {
+        combinedTaxCosts += (incomeTaxCutoff[2] - incomeTaxCutoff [1]) * rates[1] / 100
+        combinedTaxCosts += (incomeTaxCutoff[3] - incomeTaxCutoff[2]) * rates[2] / 100
+        combinedTaxCosts += (incomeTaxCutoff[4] - incomeTaxCutoff[3]) * rates[3] / 100
+        return combinedTaxCosts + (oneYearGrossIncomeAfterDeduction - incomeTaxCutoff [4]) * rates[4] / 100
+    } else if (oneYearGrossIncomeAfterDeduction <= incomeTaxCutoff[6]) {
+        combinedTaxCosts += (incomeTaxCutoff[2] - incomeTaxCutoff [1]) * rates[1] / 100
+        combinedTaxCosts += (incomeTaxCutoff[3] - incomeTaxCutoff[2]) * rates[2] / 100
+        combinedTaxCosts += (incomeTaxCutoff[4] - incomeTaxCutoff[3]) * rates[3] / 100
+        combinedTaxCosts += (incomeTaxCutoff[5] - incomeTaxCutoff[4]) * rates[4] / 100
+        return combinedTaxCosts + (oneYearGrossIncomeAfterDeduction - incomeTaxCutoff [5]) * rates[5] / 100
+    } else {
+        combinedTaxCosts += (incomeTaxCutoff[2] - incomeTaxCutoff [1]) * rates[1] / 100
+        combinedTaxCosts += (incomeTaxCutoff[3] - incomeTaxCutoff[2]) * rates[2] / 100
+        combinedTaxCosts += (incomeTaxCutoff[4] - incomeTaxCutoff[3]) * rates[3] / 100
+        combinedTaxCosts += (incomeTaxCutoff[5] - incomeTaxCutoff[4]) * rates[4] / 100
+        combinedTaxCosts += (incomeTaxCutoff[6] - incomeTaxCutoff[5]) * rates[5] / 100
+        return combinedTaxCosts + (oneYearGrossIncomeAfterDeduction - incomeTaxCutoff [6]) * rates[6] / 100
+    }
 }
 
 // limitsSingleReturn: [0, 10275, 41755, 89075, 170050, 215950, 539900],

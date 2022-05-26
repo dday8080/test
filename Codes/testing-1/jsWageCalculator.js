@@ -27,11 +27,11 @@ form.onclick = (e) => {
         let taxFilingStatus = document.querySelector("input[type='radio'][name=taxFilingStatus]:checked").value;
         let taxFilingForm = document.querySelector("input[type='radio'][name=w2or1099]:checked").value;
         let wageCalculatorInputs = [wagePerHour, hoursWorkedPerWeek, overtimeReceived];
-        
+
         cc(taxFilingForm);// get rid of after done
         cc(taxFilingStatus);// get rid of after done
     handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxFilingForm);
-    
+
 }
 function handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxFilingForm){
 
@@ -39,24 +39,25 @@ function handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxFilingForm){
     grossIncomePrintToHtml(wageCalculatorInputs)
     netIncomePrintToHtml(wageCalculatorInputs)
     getProperTaxFields(taxFilingStatus)
-    getProperTaxDeduction(taxFilingStatus)
+    getProperTaxDeduction(taxFilingStatus);
     cc(medicareTaxFields(taxFilingStatus));
     cc(getProperTaxForms(taxFilingForm, ficaW2, fica1099, ficaSocSecCutoff));
     cc(oneYearGrossIncomeForTaxFigures(wageCalculatorInputs));
-    grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs)
-    figuringTaxPercentRateOnIncome (taxFilingStatus, wageCalculatorInputs)
+    cc(grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs));
+    cc(figuringFederalTaxOnIncome (rates,taxFilingStatus, wageCalculatorInputs));
     cc(applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus, ficaW2, fica1099, ficaSocSecCutoff, ficaW2Medicare,
         ficaW2MedicareAfterCutoff, ficaW2SocSec, fica1099Medicare, fica1099MedicareAfterCutoff, fica1099SocSec));
+    //incomeSubFica(applyFicaToGrossIncome, grossIncomeAfterDeduction);
 
 }
 
 function grossIncomePrintToHtml(wageCalculatorInputs) {
     cc(wageCalculatorInputs);// get rid of after done
     wageCalculatorInputs[1] = addInOvertime(wageCalculatorInputs);
-          
+
     let firstWeekGross = wageCalculatorInputs[0] * wageCalculatorInputs[3 && 1];
-    
-    document.getElementById("2WeeksGross").innerHTML=Math.round(firstWeekGross * 2); 
+
+    document.getElementById("2WeeksGross").innerHTML=Math.round(firstWeekGross * 2);
     document.getElementById('1MonthGross').innerHTML=Math.round(firstWeekGross * 4);
     document.getElementById('1YearGross').innerHTML=Math.round(firstWeekGross * 52);
     document.getElementById('1WeekGross').innerHTML=Math.round(firstWeekGross);//tested top

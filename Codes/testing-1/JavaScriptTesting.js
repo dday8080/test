@@ -472,6 +472,11 @@ let welcome = (age < 18) ?
 
 welcome(); // ok now
 
+x > y
+? z = true
+: z = false
+
+
 */
 
 // arrow functions ----
@@ -615,10 +620,14 @@ for (let i = 0; i < 5; i++){
     for (let i = 0; i < 5; i = i + 2){
        cc(i);
       }
+let b;
+
+y = (() => { a + b })
 
 
-
-
-
+a = y();
+b = y();
+c = y();
+cc(a, b, c );
 
 
