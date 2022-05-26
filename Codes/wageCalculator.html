@@ -4,8 +4,7 @@
 		<title>Wage Calculator</title>
 		<meta charset='UTF-8'>
 		<link rel="stylesheet" href="./testing-1/styles.css" />
-		<script src="testing-1/WageCalculatorFica.js"></script>
-		<script src="testing-1/WageCalculatorTaxes.js"></script>
+
 		<style>
 
 
@@ -31,10 +30,10 @@
             <div class="flexbox-item flexbox-item-input">
 				<form id="wage-input-form">
 				<span class="flex-span">  How much do you make per-hour? 
-					<input type="number" id="inputPerHour"><span class="flex-span">$</span> <br> <br>
+					<input type="number" id="inputPerHour" value="19.5"><span class="flex-span">$</span> <br> <br>
 				
 				<span class="flex-span">  How many hours per week do you get? </span> 
-				<input type="number" id="inputHoursWeek">	<span class="flex-span">hr/week <br> <br></span>
+				<input type="number" id="inputHoursWeek" value="43">	<span class="flex-span">hr/week <br> <br></span>
 			
 				<span class="flex-span">  Do you get overtime? </span> <span class="flex-span">Check only if you do 
 					<span style="font-weight: bold;"> NOT</span> <span> get overtime pay</span>
@@ -43,7 +42,7 @@
 					  <span>How do you file your taxes?</span><br>
 					  <input type="radio" id="filingSingle" name="taxFilingStatus" value="single">
 					  	<label for="filingSingle">Single</label>
-					  <input type="radio" id="filingJoint" name="taxFilingStatus" value="jointly">
+					  <input type="radio" id="filingJoint" name="taxFilingStatus" value="jointly" checked>
 					  	<label for="filingJoint">Married,filing Jointly</label>
 					  <input type="radio" id="filingMarriedButSeparately" name="taxFilingStatus" value="marriedButSeparately">
 					  	<label for="filingMarriedButSeparately">Married, Filing Separately</label>
@@ -51,8 +50,8 @@
 					  	<label for="headOfHousehold">Head of Household</label><br><br>
 					  
 						  <span> Do you file your taxes with a W2 or a 1099?</span><br>
-					  <input type="radio" name="w2or1099" id="w2" value="w2">
-					  	<label for="W2">w2</label>
+					  <input type="radio" name="w2or1099" id="w2" value="w2" checked>
+					  	<label for="w2">W2</label>
 					  <input type="radio" name="w2or1099" id="1099" value="1099">
 						<label for="1099">1099</label>
 					  <input type="button" class="button-submit" value="Submit" id="inputValues">
@@ -83,7 +82,8 @@
 <!--	  <script src="testing-1/jsWageCalculatortest.js"></script>-->
 		<p id="print"></p>
 		<p id="printer"></p>
-
+		<script src="testing-1/WageCalculatorFica.js"></script>
+		<script src="testing-1/WageCalculatorTaxes.js"></script>
 
 	</body>
 

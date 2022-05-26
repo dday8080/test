@@ -1,10 +1,13 @@
 
 
+// state taxes come out first then deduction, fica and federal
+
 function oneYearGrossIncomeForTaxFigures(wageCalculatorInputs) {
     let firstWeekEarnedGrossIncome = wageCalculatorInputs[0] * wageCalculatorInputs[3 && 1];
     let oneYearGrossIncome = firstWeekEarnedGrossIncome * 52;
     return Math.round(oneYearGrossIncome)
 }
+
 
 function getProperTaxDeduction(taxFilingStatus){
     let standardDeduction = [12950, 25900, 12950, 19400]
@@ -23,14 +26,10 @@ function getProperTaxDeduction(taxFilingStatus){
 function grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs) {
     let standardDeduction = getProperTaxDeduction(taxFilingStatus)
     let oneYearGrossIncome = oneYearGrossIncomeForTaxFigures(wageCalculatorInputs)
-
-    if (oneYearGrossIncome) {
         return  oneYearGrossIncome - standardDeduction
-    }
 }
 
 function getProperTaxFields(taxFilingStatus){
-
     if (taxFilingStatus === 'single'){
         return incomeTaxLimitsSingle
     } else if (taxFilingStatus === 'jointly'){
@@ -41,15 +40,7 @@ function getProperTaxFields(taxFilingStatus){
         return incomeTaxLimitsHeadOfHousehold
     }
 }
-// function grossIncomeAfterFica (wageCalculatorInputs, taxFilingForm, taxFilingStatus, ficaW2, fica1099, ficaSocSecCutoff,
-//     ficaW2Medicare, ficaW2MedicareAfterCutoff, ficaW2SocSec, fica1099Medicare, fica1099MedicareAfterCutoff, fica1099SocSec){
-//
-//     let ficaBurden = applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus, ficaW2, fica1099, ficaSocSecCutoff,
-//       ficaW2Medicare, ficaW2MedicareAfterCutoff, ficaW2SocSec, fica1099Medicare, fica1099MedicareAfterCutoff, fica1099SocSec);
-//     let baseGrossIncome = oneYearGrossIncomeForTaxFigures(wageCalculatorInputs);
-//
-//     return baseGrossIncome - ficaBurden
-//}
+
 
 function figuringFederalTaxOnIncome (rates, taxFilingStatus, wageCalculatorInputs) {
     cc(rates);

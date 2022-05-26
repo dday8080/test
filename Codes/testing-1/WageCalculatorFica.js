@@ -19,24 +19,18 @@ function getProperTaxForms(taxFilingForm, ficaW2, fica1099){
         return fica1099
     }
 }
-// let grossSubFicaIncome = incomeSubFica();
-// cc(applyFicaToGrossIncome);
-// function incomeSubFica (applyFicaToGrossIncome, grossIncomeAfterDeduction) {
-//     let sub = applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus, ficaW2, fica1099, ficaSocSecCutoff,
-//         ficaW2Medicare, ficaW2MedicareAfterCutoff, ficaW2SocSec, fica1099Medicare, fica1099MedicareAfterCutoff, fica1099SocSec);
-//     let gross = grossIncomeAfterDeduction();
-//     return gross - sub
-// }
 
+function incomeSubFica (wageCalculatorInputs, taxFilingForm, taxFilingStatus) {
+    let sub = applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus);
+    let gross = grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs);
+    return (gross - sub);
+}
 
-function applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus, ficaW2, fica1099, ficaSocSecCutoff,
-    ficaW2Medicare, ficaW2MedicareAfterCutoff, ficaW2SocSec, fica1099Medicare, fica1099MedicareAfterCutoff, fica1099SocSec) {
-    grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs)
+function applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus) {
     let fica = getProperTaxForms(taxFilingForm, ficaW2, fica1099, ficaSocSecCutoff)
     let oneYearGrossIncome = grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs)
     let medicareCutoff = medicareTaxFields(taxFilingStatus);
     let ficaBurden;
-
 
     if (fica === ficaW2){
         if (oneYearGrossIncome > medicareCutoff) {
