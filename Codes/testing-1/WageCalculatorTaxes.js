@@ -14,6 +14,11 @@ function oneYearGrossIncomeForTaxFigures(wageCalculatorInputs, stateIncomeTax) {
             return Math.round(oneYearGrossIncome - stateBurden)
     }
 }
+function differenceFromGrossWithStateTax (wageCalculatorInputs, stateIncomeTax){
+    let oneYearGross = wageCalculatorInputs[0] * wageCalculatorInputs[3 && 1] * 52;
+    let stateTaxCost = oneYearGrossIncomeForTaxFigures(wageCalculatorInputs, stateIncomeTax);
+    return oneYearGross - stateTaxCost
+}
 
 
 function getProperTaxDeduction(taxFilingStatus){

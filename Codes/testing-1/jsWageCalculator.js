@@ -37,12 +37,12 @@ function handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxFilingForm, st
     getProperTaxFields(taxFilingStatus)
     getProperTaxDeduction(taxFilingStatus);
     cc(oneYearGrossIncomeForTaxFigures(wageCalculatorInputs, stateIncomeTax))
-    let grossIncomeAfterFica = incomeSubFica(wageCalculatorInputs, taxFilingForm, taxFilingStatus);
-//cc(stateIncomeTax)
+    incomeSubFica(wageCalculatorInputs, taxFilingForm, taxFilingStatus);
+
     cc(getProperTaxDeduction(taxFilingStatus));
         cc(grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs, stateIncomeTax))
         cc(figuringFederalTaxOnIncome (rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax))
-        //cc(grossIncomeAfterFica)
+        cc(differenceFromGrossWithStateTax (wageCalculatorInputs, stateIncomeTax))
 
 }
 
