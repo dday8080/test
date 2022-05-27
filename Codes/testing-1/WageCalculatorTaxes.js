@@ -2,19 +2,17 @@
 
 // state taxes come out first then deduction, fica and federal
 
-function oneYearGrossIncomeForTaxFigures(wageCalculatorInputs){//, stateIncomeTax) {
+function oneYearGrossIncomeForTaxFigures(wageCalculatorInputs, stateIncomeTax) {
     let firstWeekEarnedGrossIncome = wageCalculatorInputs[0] * wageCalculatorInputs[3 && 1];
     let oneYearGrossIncome = firstWeekEarnedGrossIncome * 52;
-    //let stateTax = stateIncomeTax;
+    let stateTax = stateIncomeTax;
     let stateBurden;
-    //cc(stateTax)
-    return Math.round(oneYearGrossIncome)
-    // if(stateIncomeTax === 0) {
-    //     return Math.round(oneYearGrossIncome)
-    // } else {
-    //     stateBurden = oneYearGrossIncome * stateTax / 100
-    //     return oneYearGrossIncome - stateBurden
-    // }
+        if(stateTax === 0 || undefined) {
+            return Math.round(oneYearGrossIncome)
+        } else {
+            stateBurden = oneYearGrossIncome * stateTax / 100
+            return Math.round(oneYearGrossIncome - stateBurden)
+    }
 }
 
 
@@ -32,9 +30,10 @@ function getProperTaxDeduction(taxFilingStatus){
     }
 }
 
-function grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs) {
+function grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs, stateIncomeTax) {
     let standardDeduction = getProperTaxDeduction(taxFilingStatus)
-    let oneYearGrossIncome = oneYearGrossIncomeForTaxFigures(wageCalculatorInputs)
+    let oneYearGrossIncome = oneYearGrossIncomeForTaxFigures(wageCalculatorInputs, stateIncomeTax)
+
         return  oneYearGrossIncome - standardDeduction
 }
 
@@ -51,9 +50,9 @@ function getProperTaxFields(taxFilingStatus){
 }
 
 
-function figuringFederalTaxOnIncome (rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus) {
+function figuringFederalTaxOnIncome (rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax) {
     cc(rates);
-    let oneYearGrossIncomeAfterDeduction = incomeSubFica (wageCalculatorInputs, taxFilingForm, taxFilingStatus);
+    let oneYearGrossIncomeAfterDeduction = incomeSubFica (wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax);
     let incomeTaxCutoff = getProperTaxFields(taxFilingStatus);
     cc(oneYearGrossIncomeAfterDeduction);
     cc(incomeTaxCutoff);
@@ -92,6 +91,7 @@ function figuringFederalTaxOnIncome (rates, wageCalculatorInputs, taxFilingForm,
         return combinedTaxCosts + (oneYearGrossIncomeAfterDeduction - incomeTaxCutoff [6]) * rates[6] / 100
     }
 }
+
 
 // limitsSingleReturn: [0, 10275, 41755, 89075, 170050, 215950, 539900],
 //     limitsMarriedJointReturn: [0, 20550, 83550, 178150, 340100, 431900, 647850],

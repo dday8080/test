@@ -20,15 +20,15 @@ function getProperTaxForms(taxFilingForm, ficaW2, fica1099){
     }
 }
 
-function incomeSubFica (wageCalculatorInputs, taxFilingForm, taxFilingStatus) {
-    let sub = applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus);
-    let gross = grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs);
+function incomeSubFica (wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax) {
+    let sub = applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax);
+    let gross = grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs, stateIncomeTax);
     return (gross - sub);
 }
 
-function applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus) {
-    let fica = getProperTaxForms(taxFilingForm, ficaW2, fica1099, ficaSocSecCutoff)
-    let oneYearGrossIncome = grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs)
+function applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax) {
+    let fica = getProperTaxForms(taxFilingForm, ficaW2, fica1099, ficaSocSecCutoff);
+    let oneYearGrossIncome = grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs, stateIncomeTax);
     let medicareCutoff = medicareTaxFields(taxFilingStatus);
     let ficaBurden;
 

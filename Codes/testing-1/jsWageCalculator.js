@@ -36,13 +36,13 @@ function handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxFilingForm, st
     netIncomePrintToHtml(wageCalculatorInputs)
     getProperTaxFields(taxFilingStatus)
     getProperTaxDeduction(taxFilingStatus);
-    oneYearGrossIncomeForTaxFigures(wageCalculatorInputs)//, stateIncomeTax)
+    cc(oneYearGrossIncomeForTaxFigures(wageCalculatorInputs, stateIncomeTax))
     let grossIncomeAfterFica = incomeSubFica(wageCalculatorInputs, taxFilingForm, taxFilingStatus);
-cc(stateIncomeTax)
+//cc(stateIncomeTax)
     cc(getProperTaxDeduction(taxFilingStatus));
-        cc(grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs))
-        cc(figuringFederalTaxOnIncome (rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus))
-        cc(grossIncomeAfterFica)
+        cc(grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs, stateIncomeTax))
+        cc(figuringFederalTaxOnIncome (rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax))
+        //cc(grossIncomeAfterFica)
 
 }
 
