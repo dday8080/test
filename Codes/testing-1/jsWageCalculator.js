@@ -33,7 +33,7 @@ form.onclick = (e) => {
 
 function handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxFilingForm, stateIncomeTax){
     grossIncomePrintToHtml(wageCalculatorInputs)
-    netIncomePrintToHtml(wageCalculatorInputs)
+    netIncomePrintToHtml(rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax)
     getProperTaxFields(taxFilingStatus)
     getProperTaxDeduction(taxFilingStatus);
     cc(oneYearGrossIncomeForTaxFigures(wageCalculatorInputs, stateIncomeTax))
@@ -43,7 +43,8 @@ function handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxFilingForm, st
         cc(grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs, stateIncomeTax))
         cc(figuringFederalTaxOnIncome (rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax))
         cc(differenceFromGrossWithStateTax (wageCalculatorInputs, stateIncomeTax))
-
+        cc(applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax))
+        cc(getAllExpenses(rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax))
 }
 
 function grossIncomePrintToHtml(wageCalculatorInputs) {
@@ -57,21 +58,29 @@ function grossIncomePrintToHtml(wageCalculatorInputs) {
     document.getElementById('1WeekGross').innerHTML=Math.round(firstWeekGross);
 }
 
-function netIncomePrintToHtml(wageCalculatorInputs) {
-
+function netIncomePrintToHtml(rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax) {
+    let taxBurden = getAllExpenses(rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax)
+    cc(taxBurden)
     addInOvertime(wageCalculatorInputs)
-
     let firstWeekEarnedNetIncome = wageCalculatorInputs[0] * wageCalculatorInputs[3 && 1];
+
 
     document.querySelector("#secondWeekNet").innerHTML=Math.round(firstWeekEarnedNetIncome * 2);
     document.querySelector("#oneMonthNet").innerHTML=Math.round(firstWeekEarnedNetIncome * 4);
     document.querySelector("#oneYearNet").innerHTML=Math.round(firstWeekEarnedNetIncome * 52);
     document.querySelector("#firstWeekNet").innerHTML=Math.round(firstWeekEarnedNetIncome);
+    document.querySelector("#combinedExpense").innerHTML=Math.round(taxBurden);
+}
+function getAllExpenses(rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax) {
+    let federalTax = +figuringFederalTaxOnIncome (rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax);
+    let stateTax = +differenceFromGrossWithStateTax (wageCalculatorInputs, stateIncomeTax);
+    let fica = +applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax);
+    return federalTax + stateTax + fica
 }
 
 function addInOvertime(wageCalculatorInputs){
 
-    if (wageCalculatorInputs[2] === false) {
+    if (wageCalculatorInputs[2] === true) {
         if (wageCalculatorInputs[1] > 40) {
             return wageCalculatorInputs[3] = (wageCalculatorInputs[1] - 40)  * 1.5 + 40
         } else {

@@ -29,53 +29,54 @@
 		<div class="flexbox-container-input">
             <div class="flexbox-item flexbox-item-input">
 				<form id="wage-input-form">
-				<span class="flex-span">  How much do you make per-hour?
-					<input type="number" id="inputPerHour" value="19.5"><span class="flex-span">$</span> <br> <br>
+					<span class="flex-span">  How much do you make per-hour? </span>
+						<input type="number" id="inputPerHour" value="19.5"><span class="flex-span">$</span> <br> <br>
 				
-				<span class="flex-span">  How many hours per week do you get? </span> 
-				<input type="number" id="inputHoursWeek" value="43">	<span class="flex-span">hr/week <br> <br></span>
-			
-				<span class="flex-span">  Do you get overtime? </span> <span class="flex-span">Check only if you do
-					<span style="font-weight: bold;"> NOT</span> <span> get overtime pay</span>
-					  <input type="checkbox" name="OT" id="overtime"><br><br>
+					<span class="flex-span">  How many hours per week do you get? </span>
+						<input type="number" id="inputHoursWeek" value="43">	<span class="flex-span">hr/week <br> <br></span>
+
+					<span class="flex-span">  Can you get overtime pay? </span>
+						<input type="checkbox" name="OT" id="overtime" checked ><br><br>
 
 					<span class="flex-span"> Do you have a state Income tax? </span>
 						<input type="number" id="stateTax" value="0"> <span class="flex-span"> % </span> <br><br>
-					  <span>How do you file your taxes?</span><br>
-					  <input type="radio" id="filingSingle" name="taxFilingStatus" value="single">
-					  	<label for="filingSingle">Single</label>
-					  <input type="radio" id="filingJoint" name="taxFilingStatus" value="jointly" checked>
-					  	<label for="filingJoint">Married,filing Jointly</label>
-					  <input type="radio" id="filingMarriedButSeparately" name="taxFilingStatus" value="marriedButSeparately">
-					  	<label for="filingMarriedButSeparately">Married, Filing Separately</label>
-					  <input type="radio" id="headOfHousehold" name="taxFilingStatus" value="headOfHousehold">
-					  	<label for="headOfHousehold">Head of Household</label><br><br>
+
+					<span class="flex-span">How do you file your taxes?</span><br>
+						<input type="radio" id="filingSingle" name="taxFilingStatus" value="single">
+					  		<label for="filingSingle" class="flex-span">Single</label>
+						<input type="radio" id="filingJoint" name="taxFilingStatus" value="jointly" checked>
+					  		<label for="filingJoint" class="flex-span">Married, Filing Jointly</label>
+						<input type="radio" id="filingMarriedButSeparately" name="taxFilingStatus" value="marriedButSeparately">
+					  		<label for="filingMarriedButSeparately" class="flex-span">Filing Separately</label>
+						<input type="radio" id="headOfHousehold" name="taxFilingStatus" value="headOfHousehold">
+					  		<label for="headOfHousehold" class="flex-span">Head of Household</label><br><br>
 					  
-						  <span> Do you file your taxes with a W2 or a 1099?</span><br>
-					  <input type="radio" name="w2or1099" id="w2" value="w2" checked>
-					  	<label for="w2">W2</label>
-					  <input type="radio" name="w2or1099" id="1099" value="1099">
-						<label for="1099">1099</label>
-					  <input type="button" class="button-submit" value="Submit" id="inputValues">
+					<span class="flex-span"> Do you file your taxes with a W2 or a 1099?</span><br>
+						<input type="radio" name="w2or1099" id="w2" value="w2" checked>
+					  		<label for="w2" class="flex-span">W2</label>
+					  	<input type="radio" name="w2or1099" id="1099" value="1099">
+							<label for="1099" class="flex-span">1099</label>
+					  	<input type="button" class="button-submit" value="Submit" id="inputValues">
 				</form>	
 				
 				</div> 
 			
 			<div class="flexbox-item flexbox-item-Gross-Income"> <span class="flex-span-output-title">Gross Income</span>
 				<div class="flexbox-inner-1">
-					<span class="flex-span">  First week: $<span id="1WeekGross"></span>  <br></span>
-					<span class="flex-span">  Two weeks: $<span id="2WeeksGross"></span>  <br></span>
+					<span class="flex-span">  First Week: $<span id="1WeekGross"></span>  <br></span>
+					<span class="flex-span">  Two Weeks: $<span id="2WeeksGross"></span>  <br></span>
 					<span class="flex-span">  One Month (4 weeks): $<span id="1MonthGross"></span>   <br> </span>
-					<span class="flex-span">  One year: $<span id="1YearGross"></span>   <br> </span>
+					<span class="flex-span">  One Year: $<span id="1YearGross"></span>   <br> </span>
 				</div>
 			
 			</div>
 			<div class="flexbox-item flexbox-item-Net-Income"> <span class="flex-span-output-title" >Net Income</span>
 				<div class="flexbox-inner-1">
-					<span class="flex-span">First week: $<span id="firstWeekNet"></span>   <br></span>
-					<span class="flex-span">Two weeks: $<span id="secondWeekNet"></span>  <br></span>
+					<span class="flex-span">First Week: $<span id="firstWeekNet"></span>   <br></span>
+					<span class="flex-span">Two Weeks: $<span id="secondWeekNet"></span>  <br></span>
 					<span class="flex-span"> One Month (4 weeks): $<span id="oneMonthNet"></span> <br> </span>
-					<span class="flex-span"> One year: $<span id="oneYearNet"></span>   <br> </span>
+					<span class="flex-span"> One Year: $<span id="oneYearNet"></span>   <br> </span>
+					<span class="flex-span"> One Year Expense: $<span id="combinedExpense"></span>   <br> </span>
 
 				</div>
 			</div>
@@ -92,7 +93,6 @@
 				<span class="flex-span"> One Month Cost: $ <span id="monthW2or1099Expenses"></span>  </span> <br>
 				<span class="flex-span"> Two Week Cost: $ <span id="biW2or1099Expenses"></span>  </span> <br>
 				<span class="flex-span"> One Week Cost: $ <span id="weekW2or1099Expenses"></span>  </span> <br>
-
 			</div>
 		</div>
 
@@ -117,13 +117,15 @@
 
 
 
-	  <script src="testing-1/jsWageCalculator.js"></script>
-<!--	  <script src="testing-1/jsWageCalculatortest.js"></script>-->
+
+
 		<p id="print"></p>
 		<p id="printer"></p>
+		<script src="testing-1/jsWageCalculator.js"></script>
 		<script src="testing-1/WageCalculatorFica.js"></script>
 		<script src="testing-1/WageCalculatorTaxes.js"></script>
 
+		<!--	  <script src="testing-1/jsWageCalculatortest.js"></script>-->
 	</body>
 
 
