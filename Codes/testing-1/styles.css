@@ -122,12 +122,19 @@ li a.panel02:hover{
 .flexbox-inner-1 {
 	border: 3px solid gray;
 	justify-content: center;
-	
-	
-	
+
 }
-
-
+.flexbox-item-Expenses {
+	flex-basis: 100%;
+	text-decoration-color: white;
+}
+.flex-span-Expenses-title {
+	color: white;
+	font-weight: bold;
+	font-size: x-large;
+	justify-content: center;
+	align-self: center;
+}
 
 
 
