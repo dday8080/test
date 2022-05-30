@@ -23,6 +23,7 @@ function getProperTaxForms(taxFilingForm, ficaW2, fica1099){
 function incomeSubFica (wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax) {
     let sub = applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax);
     let gross = grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs, stateIncomeTax);
+
     return (gross - sub);
 }
 
@@ -32,7 +33,7 @@ function applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingSt
     let medicareCutoff = medicareTaxFields(taxFilingStatus);
     let ficaBurden;
 
-    if (fica === ficaW2){
+    if (fica === ficaW2){// TODO reconfigure else doesnt seem right
         if (oneYearGrossIncome > medicareCutoff) {
             if (oneYearGrossIncome > ficaSocSecCutoff){
                 ficaBurden = medicareCutoff * ficaW2Medicare / 100

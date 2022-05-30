@@ -38,7 +38,7 @@ function getProperTaxDeduction(taxFilingStatus){
 function grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs, stateIncomeTax) {
     let standardDeduction = getProperTaxDeduction(taxFilingStatus)
     let oneYearGrossIncome = oneYearGrossIncomeForTaxFigures(wageCalculatorInputs, stateIncomeTax)
-
+cc(standardDeduction)
         return  oneYearGrossIncome - standardDeduction
 }
 

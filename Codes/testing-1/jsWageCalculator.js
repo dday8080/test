@@ -38,6 +38,7 @@ function handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxFilingForm, st
     getProperTaxDeduction(taxFilingStatus);
     cc(oneYearGrossIncomeForTaxFigures(wageCalculatorInputs, stateIncomeTax))
     incomeSubFica(wageCalculatorInputs, taxFilingForm, taxFilingStatus);
+    breakDownExpensesPrintToHtml (rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax)
 
     cc(getProperTaxDeduction(taxFilingStatus));
         cc(grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs, stateIncomeTax))
@@ -49,9 +50,7 @@ function handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxFilingForm, st
 
 function grossIncomePrintToHtml(wageCalculatorInputs) {
     wageCalculatorInputs[1] = addInOvertime(wageCalculatorInputs);
-
     let firstWeekGross = wageCalculatorInputs[0] * wageCalculatorInputs[3 && 1];
-
     document.getElementById("2WeeksGross").innerHTML=Math.round(firstWeekGross * 2);
     document.getElementById('1MonthGross').innerHTML=Math.round(firstWeekGross * 4);
     document.getElementById('1YearGross').innerHTML=Math.round(firstWeekGross * 52);
@@ -59,18 +58,43 @@ function grossIncomePrintToHtml(wageCalculatorInputs) {
 }
 
 function netIncomePrintToHtml(rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax) {
+    addInOvertime(wageCalculatorInputs)
     let taxBurden = getAllExpenses(rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax)
     cc(taxBurden)
-    addInOvertime(wageCalculatorInputs)
-    let firstWeekEarnedNetIncome = wageCalculatorInputs[0] * wageCalculatorInputs[3 && 1];
-
-
+    let firstWeekEarnedNetIncome = (wageCalculatorInputs[0] * wageCalculatorInputs[3 && 1]) - (taxBurden / 52);
     document.querySelector("#secondWeekNet").innerHTML=Math.round(firstWeekEarnedNetIncome * 2);
     document.querySelector("#oneMonthNet").innerHTML=Math.round(firstWeekEarnedNetIncome * 4);
     document.querySelector("#oneYearNet").innerHTML=Math.round(firstWeekEarnedNetIncome * 52);
     document.querySelector("#firstWeekNet").innerHTML=Math.round(firstWeekEarnedNetIncome);
     document.querySelector("#combinedExpense").innerHTML=Math.round(taxBurden);
 }
+
+function breakDownExpensesPrintToHtml (rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax) {
+    let federalTax = +figuringFederalTaxOnIncome (rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax);
+    let stateTax = +differenceFromGrossWithStateTax (wageCalculatorInputs, stateIncomeTax);
+    let fica = +applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax);
+fica = fica / 52;
+stateTax = stateTax / 52;
+federalTax = federalTax / 52;
+    document.querySelector("#weekW2or1099Expenses").innerHTML=Math.round(fica);
+    document.querySelector("#biW2or1099Expenses").innerHTML=Math.round(fica * 2);
+    document.querySelector("#monthW2or1099Expenses").innerHTML=Math.round(fica * 4);
+    document.querySelector("#yearW2or1099Expenses").innerHTML=Math.round(fica * 52);
+
+    document.querySelector("#weekStateTaxCost").innerHTML=Math.round(stateTax);
+    document.querySelector("#biStateTaxCost").innerHTML=Math.round(stateTax * 2);
+    document.querySelector("#monthStateTaxCost").innerHTML=Math.round(stateTax * 4);
+    document.querySelector("#yearStateTaxCost").innerHTML=Math.round(stateTax * 52);
+
+    document.querySelector("#weekFederalTaxCost").innerHTML=Math.round(federalTax);
+    document.querySelector("#biFederalTaxCost").innerHTML=Math.round(federalTax * 2);
+    document.querySelector("#monthFederalTaxCost").innerHTML=Math.round(federalTax * 4);
+    document.querySelector("#yearFederalTaxCost").innerHTML=Math.round(federalTax * 52);
+
+
+
+}
+
 function getAllExpenses(rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax) {
     let federalTax = +figuringFederalTaxOnIncome (rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax);
     let stateTax = +differenceFromGrossWithStateTax (wageCalculatorInputs, stateIncomeTax);
