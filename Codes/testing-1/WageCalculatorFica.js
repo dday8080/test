@@ -32,41 +32,41 @@ function applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingSt
     let oneYearGrossIncome = grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs, stateIncomeTax);
     let medicareCutoff = medicareTaxFields(taxFilingStatus);
     let ficaBurden;
-
-    if (fica === ficaW2){// TODO reconfigure else doesnt seem right
-        if (oneYearGrossIncome > medicareCutoff) {
-            if (oneYearGrossIncome > ficaSocSecCutoff){
+    if (oneYearGrossIncome >= 0) {
+        if (fica === ficaW2) {
+            if (oneYearGrossIncome > medicareCutoff) {
+                if (oneYearGrossIncome > ficaSocSecCutoff) {
+                    ficaBurden = medicareCutoff * ficaW2Medicare / 100
+                    ficaBurden += (oneYearGrossIncome - medicareCutoff) * ficaW2MedicareAfterCutoff / 100
+                    return ficaBurden + (ficaSocSecCutoff * ficaW2SocSec) / 100
+                }
                 ficaBurden = medicareCutoff * ficaW2Medicare / 100
                 ficaBurden += (oneYearGrossIncome - medicareCutoff) * ficaW2MedicareAfterCutoff / 100
-                return ficaBurden + (ficaSocSecCutoff * ficaW2SocSec) / 100
+                return ficaBurden + (oneYearGrossIncome * ficaW2SocSec) / 100
+            } else if (oneYearGrossIncome > ficaSocSecCutoff) {
+                ficaBurden = ficaSocSecCutoff * ficaW2SocSec / 100
+                return ficaBurden + (oneYearGrossIncome * ficaW2Medicare) / 100
+            } else {
+                return oneYearGrossIncome * ficaW2 / 100
             }
-            ficaBurden = medicareCutoff * ficaW2Medicare / 100
-            ficaBurden += (oneYearGrossIncome - medicareCutoff) * ficaW2MedicareAfterCutoff / 100
-            return ficaBurden + (oneYearGrossIncome * ficaW2SocSec) / 100
-        } else if ( oneYearGrossIncome > ficaSocSecCutoff ){
-            ficaBurden = ficaSocSecCutoff * ficaW2SocSec / 100
-            return ficaBurden + ( oneYearGrossIncome * ficaW2Medicare) / 100
         } else {
-            return oneYearGrossIncome * ficaW2 / 100
-        }
-    } else {
-        if (oneYearGrossIncome > medicareCutoff) {
-            if (oneYearGrossIncome > ficaSocSecCutoff){
+            if (oneYearGrossIncome > medicareCutoff) {
+                if (oneYearGrossIncome > ficaSocSecCutoff) {
+                    ficaBurden = medicareCutoff * fica1099Medicare / 100
+                    ficaBurden += (oneYearGrossIncome - medicareCutoff) * fica1099MedicareAfterCutoff / 100
+                    return ficaBurden + (ficaSocSecCutoff * fica1099SocSec) / 100
+                }
                 ficaBurden = medicareCutoff * fica1099Medicare / 100
                 ficaBurden += (oneYearGrossIncome - medicareCutoff) * fica1099MedicareAfterCutoff / 100
-                return ficaBurden + (ficaSocSecCutoff * fica1099SocSec) / 100
+                return ficaBurden + (oneYearGrossIncome * fica1099SocSec) / 100
+            } else if (oneYearGrossIncome > ficaSocSecCutoff) {
+                ficaBurden = ficaSocSecCutoff * fica1099SocSec / 100
+                return ficaBurden + (oneYearGrossIncome * fica1099Medicare) / 100
             }
-            ficaBurden = medicareCutoff * fica1099Medicare / 100
-            ficaBurden += (oneYearGrossIncome - medicareCutoff) * fica1099MedicareAfterCutoff / 100
-            return ficaBurden + (oneYearGrossIncome * fica1099SocSec) / 100
-        } else if (oneYearGrossIncome > ficaSocSecCutoff) {
-            ficaBurden = ficaSocSecCutoff * fica1099SocSec / 100
-            return ficaBurden + ( oneYearGrossIncome * fica1099Medicare) / 100
+            return oneYearGrossIncome * fica1099 / 100
         }
-        return oneYearGrossIncome * fica1099 / 100
-    }
+    }else { return 0; }
 }
-
  // medicareCutoffs: {
  //     reverseCutoffSingleReturns: 200000,
  //         reverseCutoffJointReturn: 250000,

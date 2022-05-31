@@ -117,6 +117,111 @@
 		</div>
 	</div>
 
+<br><br><br>
+<button onclick="hiddenForm()">Form Two</button>
+
+		<script>
+			//function hiddenForm(elementId, elementId2, elementId3){
+				//let y =
+				//let x = document.getElementById("input2", "outputTitle2", "output2");
+				//if (x.style.display === "none"){
+				//	x.style.display = "flex";
+			//	} else {
+			//		x.style.display = "none";
+			//	}
+		//	}
+		</script>
+
+		<div class="flexbox-container-input" id="input2">
+			<div class="flexbox-item flexbox-item-input">
+				<form id="wage-input-form2">
+					<span class="flex-span">  How much do you make per-hour? </span>
+					<input type="number" id="inputPerHour2" value="19.5"><span class="flex-span">$</span> <br> <br>
+
+					<span class="flex-span">  How many hours per week do you get? </span>
+					<input type="number" id="inputHoursWeek2" value="43">	<span class="flex-span">hr/week <br> <br></span>
+
+					<span class="flex-span">  Can you get overtime pay? </span>
+					<input type="checkbox" name="OT" id="overtime2" checked ><br><br>
+
+					<span class="flex-span"> Do you have a state Income tax? </span>
+					<input type="number" id="stateTax2" value="0"> <span class="flex-span"> % </span> <br><br>
+
+					<span class="flex-span">How do you file your taxes?</span><br>
+					<input type="radio" id="filingSingle2" name="taxFilingStatus2" value="single">
+					<label for="filingSingle2" class="flex-span">Single</label>
+					<input type="radio" id="filingJoint2" name="taxFilingStatus2" value="jointly" checked>
+					<label for="filingJoint2" class="flex-span">Married, Filing Jointly</label>
+					<input type="radio" id="filingMarriedButSeparately2" name="taxFilingStatus2" value="marriedButSeparately">
+					<label for="filingMarriedButSeparately2" class="flex-span">Filing Separately</label>
+					<input type="radio" id="headOfHousehold2" name="taxFilingStatus2" value="headOfHousehold">
+					<label for="headOfHousehold2" class="flex-span">Head of Household</label><br><br>
+
+					<span class="flex-span"> Do you file your taxes with a W2 or a 1099?</span><br>
+					<input type="radio" name="w2or10992" id="w22" value="w2" checked>
+					<label for="w22" class="flex-span">W2</label>
+					<input type="radio" name="w2or10992" id="10992" value="1099">
+					<label for="10992" class="flex-span">1099</label>
+					<input type="button" class="button-submit" value="Submit" id="inputValues2">
+				</form>
+
+			</div>
+
+			<div class="flexbox-item flexbox-item-Gross-Income"> <span class="flex-span-output-title">Gross Income</span>
+				<div class="flexbox-inner-1">
+					<span class="flex-span">  First Week: $<span id="1WeekGross2"></span>  <br></span>
+					<span class="flex-span">  Two Weeks: $<span id="2WeeksGross2"></span>  <br></span>
+					<span class="flex-span">  One Month (4 weeks): $<span id="1MonthGross2"></span>   <br> </span>
+					<span class="flex-span">  One Year: $<span id="1YearGross2"></span>   <br> </span>
+				</div>
+
+			</div>
+			<div class="flexbox-item flexbox-item-Net-Income"> <span class="flex-span-output-title" >Net Income</span>
+				<div class="flexbox-inner-1">
+					<span class="flex-span">First Week: $<span id="firstWeekNet2"></span>   <br></span>
+					<span class="flex-span">Two Weeks: $<span id="secondWeekNet2"></span>  <br></span>
+					<span class="flex-span"> One Month (4 weeks): $<span id="oneMonthNet2"></span> <br> </span>
+					<span class="flex-span"> One Year: $<span id="oneYearNet2"></span>   <br> </span>
+					<span class="flex-span"> One Year Expense: $<span id="combinedExpense2"></span>   <br> </span>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="flexbox-container-input" id="outputTitle2">
+			<span class="flex-span-Expenses-title">Break Down of Expenses</span>
+		</div>
+
+		<div class="flexbox-container-input" id="output2">
+
+
+			<div class="flexbox-item flexbox-item-Expenses"> <span class="flex-span-output-title">State Taxes</span>
+				<div class="flexbox-inner-1">
+					<span class="flex-span"> One Year Cost: $ <span id="yearStateTaxCost2"></span> </span><br>
+					<span class="flex-span"> One Month Cost: $ <span id="monthStateTaxCost2"></span> </span><br>
+					<span class="flex-span"> Two Week Cost: $ <span id="biStateTaxCost2"></span> </span><br>
+					<span class="flex-span"> One Week Cost: $ <span id="weekStateTaxCost2"></span> </span><br>
+				</div>
+			</div>
+
+			<div class="flexbox-item flexbox-item-Expenses"> <span class="flex-span-output-title">Fica Expenses</span>
+				<div class="flexbox-inner-1">
+					<span class="flex-span"> One Year Cost: $ <span id="yearW2or1099Expenses2"></span>  </span> <br>
+					<span class="flex-span"> One Month Cost: $ <span id="monthW2or1099Expenses2"></span>  </span> <br>
+					<span class="flex-span"> Two Week Cost: $ <span id="biW2or1099Expenses2"></span>  </span> <br>
+					<span class="flex-span"> One Week Cost: $ <span id="weekW2or1099Expenses2"></span>  </span> <br>
+				</div>
+			</div>
+
+			<div class="flexbox-item flexbox-item-Expenses"> <span class="flex-span-output-title">Federal Taxes</span>
+				<div class="flexbox-inner-1">
+					<span class="flex-span">One Year Cost: $ <span id="yearFederalTaxCost2"></span> </span><br>
+					<span class="flex-span">One Month Cost: $ <span id="monthFederalTaxCost2"></span> </span><br>
+					<span class="flex-span">Two Week Cost: $ <span id="biFederalTaxCost2"></span> </span><br>
+					<span class="flex-span">One Week Cost: $ <span id="weekFederalTaxCost2"></span> </span><br>
+				</div>
+			</div>
+		</div>
 
 
 
