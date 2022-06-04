@@ -2,6 +2,8 @@
 var cc = console.log;
 var form = document.querySelector("#inputValues");
 var form2 = document.querySelector("#inputValues2");
+var whenChange = document.querySelector("#hide");
+var hiddenState = true
 
 var incomeTaxLimitsHeadOfHousehold = [0, 14200, 54200, 86350, 164900, 209400, 523600];
 var incomeTaxLimitsMarriedButSeparately = [0, 10275, 41775, 89075, 170050, 215950, 323925];
@@ -17,7 +19,7 @@ var fica1099Medicare = 2.9;
 var fica1099 =  fica1099Medicare + fica1099SocSec;
 var fica1099MedicareAfterCutoff = 3.8
 var ficaSocSecCutoff = 147000;
-//var grossSubFicaIncome = incomeSubFica();
+
 
 form.onclick = (e) => {
     e.preventDefault();
@@ -47,16 +49,10 @@ function handlesOnClick(wageCalculatorInputs, taxFilingStatus, taxFilingForm, st
     netIncomePrintToHtml(rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax)
     getProperTaxFields(taxFilingStatus)
     getProperTaxDeduction(taxFilingStatus);
-    cc(oneYearGrossIncomeForTaxFigures(wageCalculatorInputs, stateIncomeTax))
+    oneYearGrossIncomeForTaxFigures(wageCalculatorInputs, stateIncomeTax)
     incomeSubFica(wageCalculatorInputs, taxFilingForm, taxFilingStatus);
     breakDownExpensesPrintToHtml (rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax)
 
-    cc(getProperTaxDeduction(taxFilingStatus));
-        cc(grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs, stateIncomeTax))
-        cc(figuringFederalTaxOnIncome (rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax))
-        cc(differenceFromGrossWithStateTax (wageCalculatorInputs, stateIncomeTax))
-        cc(applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax))
-        cc(getAllExpenses(rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax))
 }
 
 function handlesOnClick2(wageCalculatorInputs, taxFilingStatus, taxFilingForm, stateIncomeTax){
@@ -64,16 +60,10 @@ function handlesOnClick2(wageCalculatorInputs, taxFilingStatus, taxFilingForm, s
     netIncomePrintToHtml2(rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax)
     getProperTaxFields(taxFilingStatus)
     getProperTaxDeduction(taxFilingStatus);
-    cc(oneYearGrossIncomeForTaxFigures(wageCalculatorInputs, stateIncomeTax))
+    oneYearGrossIncomeForTaxFigures(wageCalculatorInputs, stateIncomeTax)
     incomeSubFica(wageCalculatorInputs, taxFilingForm, taxFilingStatus);
     breakDownExpensesPrintToHtml2 (rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax)
 
-    cc(getProperTaxDeduction(taxFilingStatus));
-    cc(grossIncomeAfterDeduction(taxFilingStatus, wageCalculatorInputs, stateIncomeTax))
-    cc(figuringFederalTaxOnIncome (rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax))
-    cc(differenceFromGrossWithStateTax (wageCalculatorInputs, stateIncomeTax))
-    cc(applyFicaToGrossIncome(wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax))
-    cc(getAllExpenses(rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax))
 }
 
 function grossIncomePrintToHtml(wageCalculatorInputs) {
@@ -189,7 +179,34 @@ function addInOvertime(wageCalculatorInputs){
         return wageCalculatorInputs[1]
     }
 }
-
-
-
-
+//
+// function hiddenForm(hiddenState) {
+//     if (hiddenState == "true") {
+//         return document.querySelector("#input2").class="flexbox-container-input"
+//     }else {
+//         return document.querySelector("#input2").class = "hidden"
+//     }
+// }
+//
+//
+// whenChange.onChange = (e) => {
+//     e.preventDefault()
+//    let changeInput = document.querySelector("#input2");
+//    let changeOutputTitle = document.querySelector("#outputTitle2");
+//    let changeOutput = document.querySelector("#output2");
+//    let change = [changeInput, changeOutputTitle,changeOutput ]
+//         handlesOnChange(change)
+//     cc(4);
+// }
+//
+// function handlesOnChange (change) {
+// cc(change);
+// hiddenForm(hiddenState)
+// alterFormOnChange(change, hiddenState);
+// cc(5);
+// }
+// function alterFormOnChange(change, hiddenState){
+//     document.querySelector("#input2").innerHTML=hiddenForm(hiddenstate);
+//     document.querySelector("#outputTitle2").innerHTML=hiddenForm(hiddenstate);
+//     document.querySelector("#output2").innerHTML=hiddenForm(hiddenstate);
+// }

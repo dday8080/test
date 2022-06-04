@@ -136,9 +136,13 @@ li a.panel02:hover{
 	align-self: center;
 }
 
+/*#input2{*/
+/*	display:none;*/
+/*}*/
 
-
-
+.hidden {
+	display:none
+}
 
 
 
