@@ -155,9 +155,6 @@ function breakDownExpensesPrintToHtml2 (rates, wageCalculatorInputs, taxFilingFo
     document.querySelector("#biFederalTaxCost2").innerHTML=Math.round(federalTax * 2);
     document.querySelector("#monthFederalTaxCost2").innerHTML=Math.round(federalTax * 4);
     document.querySelector("#yearFederalTaxCost2").innerHTML=Math.round(federalTax * 52);
-
-
-
 }
 
 function getAllExpenses(rates, wageCalculatorInputs, taxFilingForm, taxFilingStatus, stateIncomeTax) {
@@ -168,7 +165,6 @@ function getAllExpenses(rates, wageCalculatorInputs, taxFilingForm, taxFilingSta
 }
 
 function addInOvertime(wageCalculatorInputs){
-
     if (wageCalculatorInputs[2] === true) {
         if (wageCalculatorInputs[1] > 40) {
             return wageCalculatorInputs[3] = (wageCalculatorInputs[1] - 40)  * 1.5 + 40
@@ -179,34 +175,31 @@ function addInOvertime(wageCalculatorInputs){
         return wageCalculatorInputs[1]
     }
 }
-//
-// function hiddenForm(hiddenState) {
-//     if (hiddenState == "true") {
-//         return document.querySelector("#input2").class="flexbox-container-input"
-//     }else {
-//         return document.querySelector("#input2").class = "hidden"
-//     }
-// }
-//
-//
-// whenChange.onChange = (e) => {
-//     e.preventDefault()
-//    let changeInput = document.querySelector("#input2");
-//    let changeOutputTitle = document.querySelector("#outputTitle2");
-//    let changeOutput = document.querySelector("#output2");
-//    let change = [changeInput, changeOutputTitle,changeOutput ]
-//         handlesOnChange(change)
-//     cc(4);
-// }
-//
-// function handlesOnChange (change) {
-// cc(change);
-// hiddenForm(hiddenState)
-// alterFormOnChange(change, hiddenState);
-// cc(5);
-// }
-// function alterFormOnChange(change, hiddenState){
-//     document.querySelector("#input2").innerHTML=hiddenForm(hiddenstate);
-//     document.querySelector("#outputTitle2").innerHTML=hiddenForm(hiddenstate);
-//     document.querySelector("#output2").innerHTML=hiddenForm(hiddenstate);
-// }
+
+whenChange.onchange = (e) => {
+    e.preventDefault()
+    let change = document.querySelector("#hide").checked
+    hideHandlesOnChange(change);
+}
+
+ function hideHandlesOnChange(change) {
+    hidesForm(change);
+    alterFormOnChange(change);
+}
+
+function hidesForm(change) {
+    let x;
+    if (change === true) {
+        return x = "flexbox-container-input";
+    } else {
+        return x = "hidden";
+    }
+}
+
+function alterFormOnChange(change){
+    let x = hidesForm(change)
+    cc(x);
+    document.querySelector("#input2").className = x;
+    document.querySelector("#outputTitle2").className = x;
+    document.querySelector("#output2").className = x;
+}
